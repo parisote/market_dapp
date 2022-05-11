@@ -2,8 +2,8 @@
 
 ## Authors
 
-- [@parisote](https://www.github.com/parisote)
-- [@juanmartinez-19](https://www.github.com/juanmartinez-19)
-- [@termoit](https://www.github.com/termoit)
 - [@AgostinaLuciano](https://www.github.com/AgostinaLuciano)
-- [@katherinepeterson](https://www.github.com/octokatherine)
+- [@Fedejamus](https://www.github.com/Fedejamus)
+- [@juanmartinez-19](https://www.github.com/juanmartinez-19)
+- [@parisote](https://www.github.com/parisote)
+- [@termoit](https://www.github.com/termoit)
