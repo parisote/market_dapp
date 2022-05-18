@@ -1,0 +1,15 @@
+Reservapp
+
+- Home
+- About
+- Crear Lugar
+- Lugares
+	X spots
+- FAQ
+
+CARD's categorias (cocheras / oficinas) (Diego)
+Alguien que haga el home...
+CARD's lugares (Fede)
+Categorias(id,titulo,cantidad)
+Alguien que haga la seleccion de lugar...
+Template de lugar seleccionado...

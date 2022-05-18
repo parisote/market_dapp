@@ -8,6 +8,7 @@
 
 ### Necesarios 
 Vue
+
 Metamask
 
 ### Instalar dependencias del front
