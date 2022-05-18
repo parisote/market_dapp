@@ -24,6 +24,8 @@ cd hardhat
 npm i
 ```
 
+### Agregar ETH en Chainlink (faucets.chain.link/goerli)
+
 ## Authors
 
 - [@AgostinaLuciano](https://www.github.com/AgostinaLuciano)
