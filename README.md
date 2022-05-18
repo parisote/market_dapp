@@ -1,4 +1,28 @@
-# Proyecto MarketDapp
+# Proyecto ReservaDapp
+
+- Home
+- About
+- Crear Lugar
+- Lugares
+- FAQ
+
+### Necesarios 
+Vue
+Metamask
+
+### Instalar dependencias del front
+```
+cd packages
+cd frontend
+npm i
+```
+
+### Instalar dependencias de back
+```
+cd packages
+cd hardhat
+npm i
+```
 
 ## Authors
 
