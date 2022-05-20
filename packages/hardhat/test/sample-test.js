@@ -1,12 +1,12 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
-describe("Market", function () {
+describe("ReservApp", function () {
   it("Should return the new greeting once it's changed", async function () {
-    const Market = await hre.ethers.getContractFactory("Market");
-    const mkt = await Market.deploy();
+    const ReservApp = await hre.ethers.getContractFactory("ReservApp");
+    const dapp = await ReservApp.deploy();
   
-    await mkt.deployed();
+    await dapp.deployed();
 
   });
 });

@@ -2,12 +2,12 @@ const hre = require("hardhat");
 
 async function main() {
 
-  const Market = await hre.ethers.getContractFactory("Market");
-  const mkt = await Market.deploy();
+  const ReservApp = await hre.ethers.getContractFactory("ReservApp");
+  const dapp = await ReservApp.deploy();
 
-  await mkt.deployed();
+  await dapp.deployed();
 
-  console.log("Market deployed to:", mkt.address);
+  console.log("Market deployed to:", dapp.address);
 }
 
 main()
