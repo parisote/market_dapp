@@ -28,7 +28,7 @@ contract ReservApp is Ownable{
     event NewRent();
 
     modifier checkValue(){
-        require(msg.value == 1 ether, "Value is not 1 ether");
+        require(msg.value == 0.0001 ether, "Value is not 0.0001 ether");
         _;
     }
 
