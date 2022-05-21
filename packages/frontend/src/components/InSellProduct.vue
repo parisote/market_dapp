@@ -4,6 +4,10 @@
             Productos en venta
         </h2>
     </div>
+
+
+
+
 </template>
 
 <script>
