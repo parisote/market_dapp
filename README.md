@@ -8,6 +8,7 @@
 
 ### Necesarios 
 Vue
+
 Metamask
 
 ### Instalar dependencias del front
@@ -23,6 +24,8 @@ cd packages
 cd hardhat
 npm i
 ```
+
+### Agregar ETH en Chainlink (faucets.chain.link/goerli)
 
 ## Authors
 
