@@ -12,7 +12,7 @@
           <p class="card-text">
             {{description}}            
           </p>
-          <a href="#" class="btn btn-primary">Ver estacionamientos</a>
+          <a href="#" class="btn btn-primary">Reservar {{title}}</a>
         </div>
       </div>
     </div>

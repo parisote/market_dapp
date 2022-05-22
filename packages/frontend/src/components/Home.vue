@@ -24,8 +24,8 @@
         Categoria
     },
     data(){
-        return {items:[{id:0, title:"Cochera",description:"Reserve una cochera en alguno de nuestros complejos",image:"https://www.infobae.com/new-resizer/ND9m5UFOSJ_YX7Hemnahr4jNnMg=/992x558/filters:format(webp):quality(85)/cloudfront-us-east-1.images.arcpublishing.com/infobae/QQ6QUG64AFE7RAIQQBDH3IEK3U.jpg"}
-        ,{id:1, title:"Escritorio flex",description:"Reserve un escritorio o puesto de trabajo flexible", image:"https://cloudfront-us-east-1.images.arcpublishing.com/infobae/JFLB5IDXNFFF5AYDTZGDWMJHLA.jpg"}]}
+        return {items:[{id:0, title:"Cocheras",description:"Reserve una cochera en alguno de nuestros complejos",image:"https://www.infobae.com/new-resizer/ND9m5UFOSJ_YX7Hemnahr4jNnMg=/992x558/filters:format(webp):quality(85)/cloudfront-us-east-1.images.arcpublishing.com/infobae/QQ6QUG64AFE7RAIQQBDH3IEK3U.jpg"}
+        ,{id:1, title:"Escritorios Flex",description:"Reserve un escritorio o puesto de trabajo flexible", image:"https://cloudfront-us-east-1.images.arcpublishing.com/infobae/JFLB5IDXNFFF5AYDTZGDWMJHLA.jpg"}]}
     }
   };
 </script>
