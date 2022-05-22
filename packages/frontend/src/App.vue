@@ -16,6 +16,11 @@
         <li class="nav-item">
           <router-link class="nav-link active" aria-current="page" to="/MyProduct">Mis productos</router-link>
         </li>
+        <!-- es para probar -->
+                <li class="nav-item">
+          <router-link class="nav-link active" aria-current="page" to="/Card">card</router-link>
+        </li>
+        <!-- prueboooo -->
       </ul>
       <ul class="nav navbar-nav ml-auto">
         <li class="nav-item">

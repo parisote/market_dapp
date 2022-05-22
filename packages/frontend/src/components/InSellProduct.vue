@@ -1,9 +1,5 @@
 <template>
-    <div>
-        <h2>
-            Productos en venta
-        </h2>
-    </div>
+
 </template>
 
 <script>
