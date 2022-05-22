@@ -46,8 +46,6 @@ export default {
       addAddress
     };
   },
-  data(){
-  },
   methods: {
     async connectWallet() {
       if (typeof window.ethereum !== 'undefined') {
