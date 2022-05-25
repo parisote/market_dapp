@@ -9,6 +9,7 @@
         </div>
         <div class="row">
             <Categoria v-for="item in items" :key="item.id" :title="item.title" :description="item.description" :image="item.image"/>
+
         </div>
     </div>
 
@@ -16,6 +17,7 @@
 
 <script>
   // @ is an alias to /src
+
   import Categoria from "@/components/Categoria.vue";
 
   export default {
@@ -29,3 +31,8 @@
     }
   };
 </script>
+<style scoped>
+.table {  border-collapse: separate;
+  border-spacing:  5px;
+}
+</style>

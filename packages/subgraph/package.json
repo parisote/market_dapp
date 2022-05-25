@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@graphprotocol/graph-cli": "^0.29.2"
+    "@graphprotocol/graph-cli": "^0.26.1"
   }
 }
