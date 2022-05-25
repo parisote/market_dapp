@@ -12,7 +12,7 @@
           <p class="card-text">
             {{description}}            
           </p>
-          <a href="#" class="btn btn-primary">Reservar {{title}}</a>
+          <a :href="reservar" class="btn btn-primary">Reservar {{title}}</a>
         </div>
       </div>
     </div>
@@ -21,6 +21,12 @@
 <script>
 export default {
   props: ['title','description','image'],
-  name: "Categoria"
+  name: "Categoria",
+
+computed: {
+    reservar() {
+      return "#/Layout/" + this.title
+    }
+}
 };
 </script>

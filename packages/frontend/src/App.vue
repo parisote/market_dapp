@@ -16,6 +16,9 @@
         <li class="nav-item">
           <router-link class="nav-link active" aria-current="page" to="/MyProduct">Mis Reservas</router-link>
         </li>
+         <li class="nav-item">
+          <router-link class="nav-link active" aria-current="page" to="/AddLocation">Agregar Locación</router-link>
+        </li>
       </ul>
       <ul class="nav navbar-nav ml-auto">
         <li class="nav-item">
