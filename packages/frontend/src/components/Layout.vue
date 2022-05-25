@@ -40,5 +40,6 @@
 <style scoped>
 .fixCol {
   width: 20%;
+  height: 20%;
 }
 </style>
