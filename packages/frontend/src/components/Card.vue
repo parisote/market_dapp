@@ -1,34 +1,34 @@
 <template>
-    <div class="card mb-3" style="max-width: 540px;">
-        <div class="row g-0">
-            <div class="col-md-4">
-            <img :src= image class="img-fluid rounded-start" alt="...">
+
+    <div class="card mb-2" style="width:400px">
+        <div class="row">
+            <div class="col-md-5" >
+            <img :src= image class="img-fluid rounded-start tamanoFoto" alt="...">
             </div>
-            <div class="col-md-4 ">
-                <div class="card-body displey:flex ">
+            <div class="col-md" style="text-align-left">
+                <div class="card-body displey:flex">
                     <div class="flex row">
-                        <div class="cell"> <h4><b>{{nombre}}</b></h4></div>
+                        <div class="cell"> <b>{{nombre}}</b></div>
                     </div>
                     <div class="flex row">
                         <div class="card-text cell" style="height: 80px"><small class="text-muted">{{zona}}</small></div>
-                    </div> 
-                    <div class="flex row">
-                        <div class="cell" >desde</div>
-                    </div> 
-                    <div class="flex row">
-                        <div class="cell" ><b>{{price}}</b></div>
-                    </div>
-                    <div class="flex row">
-                        <div class="cell">esta noche</div>
-                    </div>                        
+                    </div>              
                 </div>
             </div>
             <div class="col-md-4"> 
                 <div>
                     <button type="button" class="btn btn-primary position-absolute top-0 end-0">{{puntaje}}</button>
                 </div>
-                <div>
-                    <button type="button" class="btn btn-dark position-absolute bottom-0 end-0">Leer más</button>
+                <div class="position-absolute bottom-0 end-0">
+                    <div class="flex row">
+                        <div><small>desde</small></div>
+                    </div> 
+                    <div class="flex row">
+                        <div><b><small>${{price}}</small></b></div>
+                    </div>
+                    <div class="flex row">
+                        <div><small>el día</small></div>
+                    </div>  
                 </div>
             </div>
         </div>
@@ -52,5 +52,10 @@ export default {
 
 .container-fluid {
   height: 200px;
+}
+
+.tamanoFoto{
+    width: 150px;
+    height: 150px;
 }
 </style>
