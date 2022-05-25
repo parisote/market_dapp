@@ -1,6 +1,5 @@
 <template>
-
-    <div class="card mb-2" style="width:400px">
+<div class="card mb-2" style="width:400px">
         <div class="row">
             <div class="col-md-5" >
             <img :src= image class="img-fluid rounded-start tamanoFoto" alt="...">
@@ -38,7 +37,7 @@
 <script>
 
 export default {
-    props: ['nombre','zona','image','price','puntaje'],
+    props: ['nombre','zona','image','price','puntaje','cantDisponible'],
     name: "Card"
 };
 </script>

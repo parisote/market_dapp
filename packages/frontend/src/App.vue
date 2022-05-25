@@ -11,19 +11,11 @@
           <router-link class="nav-link active" aria-current="page" to="/">Inicio</router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link active" aria-current="page" to="/InSellProduct">Lugares</router-link>
-        </li>
-        <li class="nav-item">
           <router-link class="nav-link active" aria-current="page" to="/MyProduct">Mis Reservas</router-link>
         </li>
          <li class="nav-item">
           <router-link class="nav-link active" aria-current="page" to="/AddLocation">Agregar Locación</router-link>
         </li>
-        <!-- es para probar -->
-                <li class="nav-item">
-          <router-link class="nav-link active" aria-current="page" to="/Card">card</router-link>
-        </li>
-        <!-- prueboooo -->
       </ul>
       <ul class="nav navbar-nav ml-auto">
         <li class="nav-item">

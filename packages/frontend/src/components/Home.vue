@@ -9,7 +9,6 @@
         </div>
         <div class="row">
             <Categoria v-for="item in items" :key="item.id" :title="item.title" :description="item.description" :image="item.image"/>
-
         </div>
     </div>
 

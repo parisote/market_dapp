@@ -10,10 +10,8 @@ import { createPinia } from 'pinia'
 const routes = [
     { path: '/', component: Home },
     { path: '/MyProduct', component: MyProduct },
-
     { path: '/Layout/:Categoria', component: Layout },
     { path: '/AddLocation', component: AddLocation }
-
 ]
 
 const router = createRouter({
