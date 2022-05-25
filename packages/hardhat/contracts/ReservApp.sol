@@ -11,16 +11,18 @@ contract ReservApp is Ownable{
 
     struct Place{
         uint256 id;
+        uint256 size;
+        uint256 price;
         Category category;
         string title;
-        string description;
-        uint256 size;
+        string zone;
+        
     }
 
     struct PlaceRent{
         Category category;
         string title;
-        string description;
+        string zone;
     }
 
     uint256 _id;
@@ -32,9 +34,9 @@ contract ReservApp is Ownable{
         _;
     }
 
-    function newPlace(Category category, string memory title, string memory description, uint256 size) public payable checkValue(){
+    function newPlace(Category category, string memory title, string memory zone, uint256 price, uint256 size) public payable checkValue(){
         _bankPlace[msg.sender].push(msg.value);
-        _places[category].push(Place(_id, category, title, description, size));
+        _places[category].push(Place(_id, size, price, category, title, zone));
         _id++;
         emit NewPlaceEvent();
     }
@@ -51,7 +53,7 @@ contract ReservApp is Ownable{
         p.size -= 1;
         _places[category][index] = p;
 
-        _rent[msg.sender].push(PlaceRent(category,p.title,p.description));
+        _rent[msg.sender].push(PlaceRent(category,p.title,p.zone));
         emit NewRent();
     }
 

@@ -1,45 +1,85 @@
 <template>
-    <div>
-        <div class="container" id="container">
-            <div class="row">
-              <div class="col-12" style="text-align:center; margin-top:0.5em">
-                <h1>{{$route.params.Categoria}}</h1>
-              </div>
-            </div>
+  <div>
+    <div class="container" id="container">
+      <div class="row">
+        <div class="col-12" style="text-align: center; margin-top: 0.5em">
+          <h1>{{ $route.params.Categoria }}</h1>
         </div>
-       <div class="container-fluid">
-        <div class="row row-cols-3 row-cols-md-2 g-1 fixCol">
-            <Card v-for="item in items" :key="item.id" :nombre="item.nombre" :price="item.price" :puntaje="item.puntaje" :zona="item.zona" :image="item.image" :cantDisponible="item.cantDisponible"/>
-        </div>
+      </div>
     </div>
-
+    <div class="container-fluid">
+      <div class="listContainer">
+        <Card
+          v-for="item in items"
+          :key="item.id"
+          :id="item.id"
+          :nombre="item.title"
+          :price="item.price"
+          :puntaje="item.puntaje"
+          :zona="item.image"
+          :image="item.zona"
+          :cantDisponible="item.cantDisponible"
+        />
+      </div>
     </div>
-
+  </div>
 </template>
 
 <script>
-  import Card from "@/components/Card.vue";
+import Card from "@/components/Card.vue";
+import { useStore } from "../store/store.js";
+import { storeToRefs } from "pinia";
+import { ethers } from "ethers";
 
-  export default {
-    name: "Layout",
-        components: {
-        Card
-    },
-   data() {
-        return {items:[{id:0, nombre:"Cochera 1",zona:"Recoleta",price:"12.900",puntaje:"",image:"",cantDisponible:"20"},
-        {id:1,nombre:"Cochera 2",zona:"Caballito",price:"",puntaje:"",image:"",cantDisponible:"5"},
-        {id:2, nombre:"Cochera 3",zona:"Palermo",price:"12.900",puntaje:"",image:"",cantDisponible:"12"},
-        {id:3,nombre:"Cochera 4",zona:"Belgrano",price:"",puntaje:"",image:"",cantDisponible:"15"},
-        {id:4, nombre:"Cochera 5",zona:"Lugano",price:"",puntaje:"",image:"",cantDisponible:"19"},
-        {id:5,nombre:"Cochera 6",zona:"Retiro",price:"",puntaje:"",image:"",cantDisponible:"25"}
-        ]}
-   }
-  };
+export default {
+  name: "Layout",
+  components: {
+    Card,
+  },
+  setup() {
+    const store = useStore();
+    const { address, contract } = storeToRefs(store);
+    const { addAddress, setContract } = store;
+    return {
+      store,
+      address,
+      contract,
+      addAddress,
+      setContract,
+    };
+  },
+  data() {
+    return { items: [] };
+  },
+  async created() {
+    const result = await this.contract.getPlacesByCategory(1);
+    for (let i = 0; i < result.length; i++) {
+      this.items.push({
+        id: result[i][0],
+        title: result[i][4],
+        price: ethers.utils.formatEther(result[i][2], "ethers"),
+        puntaje: 0,
+        image: "",
+        zona: result[i][5],
+        cantDisponible: result[i][1],
+      });
+    }
+    return this.items;
+  },
+};
 </script>
 
 <style scoped>
 .fixCol {
   width: 20%;
   height: 20%;
+}
+.listContainer {
+  columns: 3 400px;
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  padding: 8px;
 }
 </style>

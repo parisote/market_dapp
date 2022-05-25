@@ -3,6 +3,7 @@ import Home from '../components/Home.vue'
 import MyProduct from '../components/MyProduct.vue'
 import Layout from '../components/Layout.vue'
 import AddLocation from '../components/AddLocation.vue'
+import LayoutPlace from '../components/LayoutPlace.vue'
 import { createPinia } from 'pinia'
 
 //app.use(createPinia())
@@ -11,7 +12,8 @@ const routes = [
     { path: '/', component: Home },
     { path: '/MyProduct', component: MyProduct },
     { path: '/Layout/:Categoria', component: Layout },
-    { path: '/AddLocation', component: AddLocation }
+    { path: '/AddLocation', component: AddLocation },
+    { path: '/LayoutPlace/:id', component: LayoutPlace }
 ]
 
 const router = createRouter({

@@ -22,11 +22,10 @@
 export default {
   props: ['title','description','image'],
   name: "Categoria",
-
-computed: {
+  computed: {
     reservar() {
       return "#/Layout/" + this.title
     }
-}
+  }
 };
 </script>

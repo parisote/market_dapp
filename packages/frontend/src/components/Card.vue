@@ -2,12 +2,12 @@
 <div class="card mb-2" style="width:400px">
         <div class="row">
             <div class="col-md-5" >
-            <img :src= image class="img-fluid rounded-start tamanoFoto" alt="...">
+            <img :src= image class="img-fluid rounded-start">
             </div>
             <div class="col-md" style="text-align-left">
                 <div class="card-body displey:flex">
                     <div class="flex row">
-                        <div class="cell"> <b>{{nombre}}</b></div>
+                        <div class="cell"><b><a class="nav-link" :href="place">{{nombre}}</a></b></div>
                     </div>
                     <div class="flex row">
                         <div class="card-text cell" style="height: 80px"><small class="text-muted">{{zona}}</small></div>
@@ -23,7 +23,7 @@
                         <div><small>desde</small></div>
                     </div> 
                     <div class="flex row">
-                        <div><b><small>${{price}}</small></b></div>
+                        <div><b><small>ETH {{price}}</small></b></div>
                     </div>
                     <div class="flex row">
                         <div><small>el día</small></div>
@@ -37,24 +37,23 @@
 <script>
 
 export default {
-    props: ['nombre','zona','image','price','puntaje','cantDisponible'],
-    name: "Card"
+    props: ['id','nombre','zona','image','price','puntaje','cantDisponible'],
+    name: "Card",
+  computed: {
+    place() {
+      return "#/LayoutPlace/" + this.id
+    }
+  }
 };
 </script>
 
 <style>
-/* Backgrounds */
-#background-head {
-  background: #adb5bd;
-}
-/*Cambio de tamaño a los container*/
-
-.container-fluid {
-  height: 200px;
-}
-
-.tamanoFoto{
-    width: 150px;
-    height: 150px;
-}
+.card {
+    box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px;
+    margin-top:10px;
+    margin-bottom:10px;
+    display: inline-block;
+  }
 </style>

@@ -34,16 +34,21 @@
 <script>
 import { useStore } from './store/store.js';
 import { storeToRefs } from 'pinia';
+import abi from "../contract/abi.json";
+import { ethers } from "ethers";
+const contractAddress = import.meta.env.VITE_API_CONTRACT;
 
 export default {
   setup() {
     const store = useStore();
-    const { address } = storeToRefs(store);
-    const { addAddress } = store;
+    const { address, contract } = storeToRefs(store);
+    const { addAddress, setContract } = store;    
     return {
       store,
       address,
-      addAddress
+      contract,
+      addAddress,
+      setContract
     };
   },
   methods: {
@@ -53,6 +58,19 @@ export default {
         const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
         const account = accounts[0];
         this.addAddress(account);
+
+        const contractAbi = abi.abi;
+        let provider = "";
+        if(!import.meta.env.VITE_API_LOCALHOST)
+            provider = new ethers.providers.Web3Provider(ethereum);
+          else
+            provider = new ethers.providers.JsonRpcProvider();
+
+        const signer = provider.getSigner();
+        this.setContract(new ethers.Contract(contractAddress, contractAbi, signer));
+
+        console.log(await this.contract.newPlace(1,"algo","https://cloudfront-us-east-1.images.arcpublishing.com/infobae/JFLB5IDXNFFF5AYDTZGDWMJHLA.jpg",ethers.utils.parseEther("0.0001"),10, { gasLimit: 300000, value: ethers.utils.parseEther("0.0001") }))
+
       } else {
         console.log("Install metamask")
       }
