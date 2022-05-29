@@ -2,41 +2,50 @@
 pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+    interface IReservaNFT {
+        function mintNFT(address owner) external returns(uint256);
+    }
+
 contract ReservApp is Ownable{
+    uint256 private _id;
+    uint256[6][] private test;
     enum Category { Oficina, Garage }
     mapping(Category => Place[]) private _places;
     mapping(address => PlaceRent[]) private _rent;
     mapping(address => uint256[]) private _bankPlace;
     mapping(address => uint256[]) private _bankRent;
 
+    IReservaNFT private nft_address;
+
     struct Place{
         uint256 id;
         uint256 size;
-        uint256 price;
         Category category;
         string title;
-        string zone;
-        
+        string description;        
     }
 
     struct PlaceRent{
         Category category;
         string title;
-        string zone;
+        string description;
     }
-
-    uint256 _id;
+        
     event NewPlaceEvent();
     event NewRent();
 
     modifier checkValue(){
-        require(msg.value == 0.0001 ether, "Value is not 0.0001 ether");
+        require(msg.value == 0.0001 ether, "Value is not 1 ether");
         _;
     }
 
-    function newPlace(Category category, string memory title, string memory zone, uint256 price, uint256 size) public payable checkValue(){
+    constructor(address _nft){
+        nft_address = IReservaNFT(address(_nft));
+    }
+
+    function newPlace(Category category, string memory title, string memory description, uint256 size) public payable checkValue(){
         _bankPlace[msg.sender].push(msg.value);
-        _places[category].push(Place(_id, size, price, category, title, zone));
+        _places[category].push(Place(_id, size, category, title, description));
         _id++;
         emit NewPlaceEvent();
     }
@@ -45,7 +54,7 @@ contract ReservApp is Ownable{
         return _places[category];
     }
 
-    function rentPlace(Category category, uint index) public payable checkValue(){
+    function rentPlace(Category category, uint index) public payable checkValue() returns(uint256){
         Place storage p = _places[category][index];
         require(p.size > 0, "Place complete");
 
@@ -53,8 +62,10 @@ contract ReservApp is Ownable{
         p.size -= 1;
         _places[category][index] = p;
 
-        _rent[msg.sender].push(PlaceRent(category,p.title,p.zone));
-        emit NewRent();
+        _rent[msg.sender].push(PlaceRent(category,p.title,p.description));
+
+        uint256 result = nft_address.mintNFT(msg.sender);
+        return result;
     }
 
     function getMyPlaces() public view returns(PlaceRent[] memory){
