@@ -69,12 +69,16 @@ export default {
         const signer = provider.getSigner();
         this.setContract(new ethers.Contract(contractAddress, contractAbi, signer));
 
-        console.log(await this.contract.newPlace(1,"algo","https://cloudfront-us-east-1.images.arcpublishing.com/infobae/JFLB5IDXNFFF5AYDTZGDWMJHLA.jpg",ethers.utils.parseEther("0.0001"),10, { gasLimit: 300000, value: ethers.utils.parseEther("0.0001") }))
+        console.log(await this.contract.newPlace(1,ethers.utils.parseEther("0.0001"),10,"algo","descripcion de algo","https://cloudfront-us-east-1.images.arcpublishing.com/infobae/JFLB5IDXNFFF5AYDTZGDWMJHLA.jpg", { gasLimit: 3000000, value: ethers.utils.parseEther("0.0001") }))
 
       } else {
         console.log("Install metamask")
       }
     }
+  },
+  mounted() {
+    if(localStorage.getItem('address'))
+      this.connectWallet()
   }
 };
 </script>
@@ -82,7 +86,6 @@ export default {
 <style>
 /*
 @import './assets/base.css';
-
 #app {
   max-width: 1280px;
   margin: 0 auto;
