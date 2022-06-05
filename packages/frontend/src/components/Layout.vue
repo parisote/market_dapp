@@ -52,7 +52,12 @@ export default {
     return { items: [] };
   },
   async created() {
-    const result = await this.contract.getPlacesByCategory(1);
+    let result = "";
+    if(this.$route.params.Categoria === "Cocheras")
+       result = await this.contract.getPlacesByCategory(1);
+    else
+      result = await this.contract.getPlacesByCategory(0);
+
     for (let i = 0; i < result.length; i++) {
       this.items.push({
         id: result[i][0],

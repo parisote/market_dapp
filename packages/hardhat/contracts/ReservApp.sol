@@ -33,8 +33,8 @@ contract ReservApp is Ownable{
         string description;
     }
         
-    event NewPlaceEvent();
-    event NewRent();
+    event NewPlaceEvent(Category category, uint256 index);
+    event NewRent(address user, Category category, uint256 index);
 
     modifier checkValue(){
         require(msg.value == 0.0001 ether, "Value is not 1 ether");
@@ -49,14 +49,14 @@ contract ReservApp is Ownable{
         _bankPlace[msg.sender].push(msg.value);
         _places[category].push(Place(_id, size, price, category, title, description, image));
         _id++;
-        emit NewPlaceEvent();
+        emit NewPlaceEvent(category, _id);
     }
 
     function getPlacesByCategory(Category category) public view returns(Place[] memory){
         return _places[category];
     }
 
-    function rentPlace(Category category, uint index) public payable checkValue() returns(uint256){
+    function rentPlace(Category category, uint index) public payable checkValue(){
         Place storage p = _places[category][index];
         require(p.size > 0, "Place complete");
 
@@ -66,8 +66,9 @@ contract ReservApp is Ownable{
 
         _rent[msg.sender].push(PlaceRent(category,p.title,p.description));
 
-        uint256 result = nft_address.mintNFT(msg.sender);
-        return result;
+        nft_address.mintNFT(msg.sender);
+        
+        emit NewRent(msg.sender, category, index);
     }
 
     function getMyPlaces() public view returns(PlaceRent[] memory){

@@ -22,7 +22,7 @@
           <a class="nav-link disabled">{{this.address}}</a>
         </li>
         <li>          
-          <div class="btn-nav me-2" v-if="this.address == ''"><button type="button" class="btn btn-primary" @click="connectWallet">Conectar wallet</button></div>          
+          <div class="btn-nav me-2" v-if="this.address == ''"><button type="button" class="btn btn-primary" @click="login">Conectar wallet</button></div>          
         </li>
       </ul>
     </div>
@@ -32,11 +32,18 @@
 </template>
 
 <script>
+import { ref, computed } from "vue";
 import { useStore } from './store/store.js';
 import { storeToRefs } from 'pinia';
 import abi from "../contract/abi.json";
 import { ethers } from "ethers";
 const contractAddress = import.meta.env.VITE_API_CONTRACT;
+
+import Moralis from "moralis";
+
+const serverUrl = import.meta.env.VITE_MORALIS_SERVER_URL;
+const appId = import.meta.env.VITE_MORALIS_APPLICATION_ID;
+Moralis.start({ serverUrl, appId });
 
 export default {
   setup() {
@@ -74,15 +81,31 @@ export default {
       } else {
         console.log("Install metamask")
       }
+    },
+    async login() {
+      console.log("hola");
+      let user = Moralis.User.current();
+      if (!user) {
+        user = await Moralis.authenticate({
+          signingMessage: "Log in using Moralis",
+        })
+          .then(function (user) {
+            this.addAddress(user.get("ethAddress"))
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+      this.addAddress(user.get("ethAddress"))
     }
   },
   mounted() {
-    if(localStorage.getItem('address'))
-      this.connectWallet()
+    let user = Moralis.User.current();
+    if(user)
+      this.addAddress(user.get("ethAddress"))
   }
 };
 </script>
-
 <style>
 /*
 @import './assets/base.css';
