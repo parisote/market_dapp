@@ -37,7 +37,7 @@ contract ReservApp is Ownable{
     event NewRent();
 
     modifier checkValue(){
-        require(msg.value == 0.0001 ether, "Value is not 1 ether");
+        require(msg.value == 0.0001 ether, "Value is not 0.0001 ether");
         _;
     }
 
@@ -72,6 +72,10 @@ contract ReservApp is Ownable{
 
     function getMyPlaces() public view returns(PlaceRent[] memory){
         return _rent[msg.sender];
+    }
+
+    function getPlacesById(Category category, uint256 index) public view returns(Place memory){
+        return _places[category][index];
     }
 
     fallback() external payable{ }

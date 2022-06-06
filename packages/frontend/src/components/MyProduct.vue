@@ -1,7 +1,6 @@
 <template>
     <div>
         <h2>
-            Mis productos
             {{ this.address }}
         </h2>
     </div>
@@ -14,14 +13,19 @@ import { storeToRefs } from 'pinia';
 export default {
   setup() {
     const store = useStore();
-    const { address } = storeToRefs(store);
+    const { address, contract } = storeToRefs(store);
     return {
       store,
-      address
+      address,
+      contract
     };
   },
   data(){
       return this.address;
+  },
+  async mounted(){
+    console.log(this.contract)
+    console.log(await this.contract.getMyPlaces())
   }
 };
 </script>

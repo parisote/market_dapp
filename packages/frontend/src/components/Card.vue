@@ -2,7 +2,7 @@
 <div class="card mb-2" style="width:400px">
         <div class="row">
             <div class="col-md-5" >
-            <img :src= image class="img-fluid rounded-start">
+            <img src="https://cloudfront-us-east-1.images.arcpublishing.com/infobae/JFLB5IDXNFFF5AYDTZGDWMJHLA.jpg" class="img-fluid rounded-start">
             </div>
             <div class="col-md" style="text-align-left">
                 <div class="card-body displey:flex">
@@ -35,13 +35,12 @@
 </template>
 
 <script>
-
 export default {
-    props: ['id','nombre','zona','image','price','puntaje','cantDisponible'],
+    props: ['id','nombre','descripcion','image','price','puntaje','cantDisponible'],
     name: "Card",
   computed: {
     place() {
-      return "#/LayoutPlace/" + this.id
+      return "#/LayoutPlace/" + this.id + "/Cocheras/" + this.nombre +'/'+ this.descripcion +"/"+ this.price +"/"+ this.puntaje +"/"+ this.cantDisponible 
     }
   }
 };
