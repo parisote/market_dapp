@@ -1,12 +1,48 @@
 <template>
-    <div class="col-sm-4">
-        <h1>{{$route.params.id}}</h1>
+    <div class="card text-center">
+    <div class="card-header">
+      {{$route.params.price}}
     </div>
+    <div class="card-body">
+      <h5 class="card-title">{{ $route.params.nombre }}</h5>
+      <p class="card-text">{{ $route.params.zona }}</p>
+      <img src="https://cloudfront-us-east-1.images.arcpublishing.com/infobae/JFLB5IDXNFFF5AYDTZGDWMJHLA.jpg"/>
+      <p/>
+      <a @click="rentPlace" class="btn btn-primary">Go somewhere</a>
+    </div>
+    <div class="card-footer text-muted">
+      {{ $route.params.cantDisponible }} disponibles
+    </div>
+  </div>
 </template>
 
 <script>
-export default {
+import { useStore } from "../store/store.js";
+import { storeToRefs } from "pinia";
+import { ethers } from "ethers";
+
+export default {  
   props: ['id'],
-  name: "LayoutPlace"
+  name: "LayoutPlace",
+    setup() {
+    const store = useStore();
+    const { address, contract } = storeToRefs(store);
+    const { addAddress, setContract } = store;
+    return {
+      store,
+      address,
+      contract,
+      addAddress,
+      setContract,
+    };
+  },
+  data() {
+    return { place: {} };
+  },
+  methods:{
+    async rentPlace(){
+      console.log(await this.contract.rentPlace(0,0, { gasLimit: 3000000, value: ethers.utils.parseEther("0.0001") }))
+    }  
+  }
 };
 </script>

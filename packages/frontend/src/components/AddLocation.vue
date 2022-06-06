@@ -33,7 +33,7 @@
       </div>
       <div class="mb-3">
         <label for="disabledSelect" class="form-label">Categoría</label>
-        <select id="disabledSelect" class="form-select">
+        <select id="disabledSelect" class="form-select" v-model="location.category">
           <option>Cochera</option>
           <option>Escritorios Flex</option>
         </select>
@@ -50,6 +50,7 @@
 <script>
 import { useStore } from '../store/store.js';
 import { storeToRefs } from 'pinia';
+import { ethers } from "ethers";
 
 export default {
   name: "AddLocation",
@@ -66,15 +67,25 @@ export default {
    data() {
     return {
      lista: [],
-     location: { nombre:"",descripcion:"",precio:0, image:"",size:0},
+     location: { category: 0, nombre:"",descripcion:"",precio:0, image:"",size:0},
      mensajeError: "", 
     };
   },
   methods:{
     async createLocation(){
       //https://cloudfront-us-east-1.images.arcpublishing.com/infobae/JFLB5IDXNFFF5AYDTZGDWMJHLA.jpg
-     //  await this.contract.newPlace(1,this.location.precio,this.location.size,this.location.nombre,this.location.zona,this.location.image, { gasLimit: 300000, value: ethers.utils.parseEther("0.0001") })
-    console.log(1,this.location.precio,this.location.size,this.location.nombre,this.location.descripcion,this.location.image)
+    let category_id = '';
+    if(this.location.category === "Escritorios Flex")
+      category_id = 0
+    else 
+      category_id = 1;
+
+    //this.location.precio
+    //console.log(category_id,ethers.utils.parseEther("0.0001"),this.location.size,this.location.nombre,this.location.descripcion,this.location.image)
+
+    console.log(await this.contract.newPlace(category_id,this.location.precio,this.location.size,this.location.nombre,this.location.descripcion,this.location.image, { gasLimit: 3000000, value: ethers.utils.parseEther("0.0001") }))
+
+    //console.log(await this.contract.newPlace(1,ethers.utils.parseEther("0.0001"),10,"algo","descripcion de algo","https://cloudfront-us-east-1.images.arcpublishing.com/infobae/JFLB5IDXNFFF5AYDTZGDWMJHLA.jpg", { gasLimit: 3000000, value: ethers.utils.parseEther("0.0001") }))
     }
   },
   created: async function () {
