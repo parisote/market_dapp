@@ -88,7 +88,7 @@ contract ReservApp is Ownable{
     }
 
     function linkedPerson(string memory first_name, string memory last_name, string memory email) public{
-        _persons[msg.sender].push(Person(first_name, last_name, email));
+        _persons[msg.sender] = Person(first_name, last_name, email);
         emit NewPersonEvent(msg.sender, first_name, last_name, email);
     }
 
@@ -115,6 +115,10 @@ contract ReservApp is Ownable{
         to.transfer(msg.value);
         
         emit NewRentEvent(msg.sender, category, index, p.title, p.description);
+    }
+
+    function getPersonByAddress() public view returns(Person memory){
+        return _persons[msg.sender];
     }
 
     fallback() external payable{ }    
