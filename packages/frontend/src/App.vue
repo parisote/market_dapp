@@ -16,6 +16,9 @@
          <li class="nav-item">
           <router-link class="nav-link active" aria-current="page" to="/AddLocation">Agregar Locación</router-link>
         </li>
+        <li>
+          <div class="btn-nav me-2" v-if="this.address !== ''"><router-link class="nav-link active" aria-current="page" to="/Login">Login</router-link></div>          
+        </li>  
       </ul>
       <ul class="nav navbar-nav ml-auto">
         <li class="nav-item">
