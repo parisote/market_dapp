@@ -16,8 +16,8 @@
           :nombre="item.title"
           :price="item.price"
           :puntaje="item.puntaje"
-          :zona="item.image"
-          :image="item.zona"
+          :descripcion="item.descripcion"
+          :image="item.image"
           :cantDisponible="item.cantDisponible"
         />
       </div>
@@ -52,16 +52,23 @@ export default {
     return { items: [] };
   },
   async created() {
-    const result = await this.contract.getPlacesByCategory(1);
+    let category = "";
+    if (this.$route.params.Categoria === "Cocheras")
+      category = 1;
+    else
+      category = 0;
+    
+    const result = await this.contract.getPlacesByCategory(category);
+
     for (let i = 0; i < result.length; i++) {
       this.items.push({
-        id: result[i][0],
-        title: result[i][4],
+        id: result[i].id,
+        title: result[i].title,
         price: ethers.utils.formatEther(result[i][2], "ethers"),
-        puntaje: 0,
-        image: "",
-        zona: result[i][5],
-        cantDisponible: result[i][1],
+        puntaje: 9,
+        image: result[i].image,
+        descripcion: result[i].description,
+        cantDisponible: result[i].size
       });
     }
     return this.items;

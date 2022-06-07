@@ -34,6 +34,14 @@ cd hardhat
 npx hardhat node
 ```
 
+### Compilar y deploy de contratos
+```
+cd packages
+cd hardhat
+npx hardhat run ./scripts/deploy.js --network localhost
+```
+Copiar address de contrato de Market al .env de la carpeta del front y cambiar abi
+
 ### Levantar Frontend
 ```
 cd packages

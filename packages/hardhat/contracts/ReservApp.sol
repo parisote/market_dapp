@@ -20,9 +20,11 @@ contract ReservApp is Ownable{
     struct Place{
         uint256 id;
         uint256 size;
+        uint256 price;
         Category category;
         string title;
         string description;        
+        string image;
     }
 
     struct PlaceRent{
@@ -35,7 +37,7 @@ contract ReservApp is Ownable{
     event NewRent();
 
     modifier checkValue(){
-        require(msg.value == 0.0001 ether, "Value is not 1 ether");
+        require(msg.value == 0.0001 ether, "Value is not 0.0001 ether");
         _;
     }
 
@@ -43,9 +45,9 @@ contract ReservApp is Ownable{
         nft_address = IReservaNFT(address(_nft));
     }
 
-    function newPlace(Category category, string memory title, string memory description, uint256 size) public payable checkValue(){
+    function newPlace(Category category, uint256 price, uint256 size, string memory title, string memory description, string memory image) public payable checkValue(){
         _bankPlace[msg.sender].push(msg.value);
-        _places[category].push(Place(_id, size, category, title, description));
+        _places[category].push(Place(_id, size, price, category, title, description, image));
         _id++;
         emit NewPlaceEvent();
     }
@@ -71,4 +73,11 @@ contract ReservApp is Ownable{
     function getMyPlaces() public view returns(PlaceRent[] memory){
         return _rent[msg.sender];
     }
+
+    function getPlacesById(Category category, uint256 index) public view returns(Place memory){
+        return _places[category][index];
+    }
+
+    fallback() external payable{ }
+    
 }

@@ -9,11 +9,13 @@ export const useStore = defineStore('main', {
     },
     actions: {
         addAddress(newAddress) {
-            console.log(newAddress);
+            if(!localStorage.getItem('address')){
+                localStorage.setItem('address',newAddress);
+            }
+
             this.address = newAddress;
         },
         setContract(contract) {
-            console.log("CONTRATO", contract);
             this.contract = contract;
         }
     },
