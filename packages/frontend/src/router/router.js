@@ -4,7 +4,7 @@ import MyProduct from '../components/MyProduct.vue'
 import Layout from '../components/Layout.vue'
 import AddLocation from '../components/AddLocation.vue'
 import LayoutPlace from '../components/LayoutPlace.vue'
-import Login from '.../components/Login.vue'
+import Login from '../components/Login.vue'
 import { createPinia } from 'pinia'
 
 //app.use(createPinia())
