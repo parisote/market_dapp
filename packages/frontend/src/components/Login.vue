@@ -8,22 +8,28 @@
       </div>
     </div>
     <form>
-      <div class="mb-3">
-        <label for="exampleFormControlInput1" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-      </div>
-      <div class="mb-3">
-         <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+        <div class="mb-3">
+         <label class="col-sm-2 col-form-label">Nombre</label>
          <div class="col-sm-10">
-        <input type="password" class="form-control" id="inputPassword">
+        <input class="form-control" v-model="user.nombre" />
     </div>
       </div>
-       <button type="submit" class="btn btn-primary" @click="createUser">Login</button>
+      <div class="mb-3">
+         <label class="col-sm-2 col-form-label">Apellido</label>
+         <div class="col-sm-10">
+        <input class="form-control" v-model="user.apellido" />
+    </div>
+      </div>
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" v-model="user.email" />
+      </div>
+       <button type="submit" class="btn btn-primary" @click="linkedPerson">Login</button>
     </form>
   </div>
 </template>  
 
-<!--
+
 <script>
 import { useStore } from '../store/store.js';
 import { storeToRefs } from 'pinia';
@@ -43,16 +49,18 @@ export default {
   },
   data() {
     return {
+     lista: [],
+     user: { nombre:"",apellido:"",email:"" },
      mensajeError: "", 
     };
   },
   methods:{
-    async createUser(){    
-    console.log(await this.contract.createUser() }))
+    async linkedPerson(){    
+    console.log(await this.contract.linkedPerson(this.user.nombre, this.user.apellido, this.user.email) )}
     },
   created: async function () {
     try {
-      const rta = await this.contract.getUser()
+      const rta = await this.contract.getPersonByAddress(this.address)
       this.lista = rta.data;
     } catch (error) {
       this.mensajeError = "No se pudo obtener los datos ";
@@ -60,7 +68,4 @@ export default {
     }
   } 
   };
-}
 </script>
-
--->

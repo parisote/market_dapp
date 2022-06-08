@@ -17,7 +17,7 @@
           <router-link class="nav-link active" aria-current="page" to="/AddLocation">Agregar Locación</router-link>
         </li>
         <li>
-          <div class="btn-nav me-2" v-if="this.address !== ''"><router-link class="nav-link active" aria-current="page" to="/Login">Login</router-link></div>          
+          <div class="btn-nav me-2" v-if="(this.address !== '')&&(this.exists==false)"><router-link class="nav-link active" aria-current="page" to="/Login">Login</router-link></div>          
         </li>  
       </ul>
       <ul class="nav navbar-nav ml-auto">
@@ -25,7 +25,7 @@
           <a class="nav-link disabled">{{this.address}}</a>
         </li>
         <li>          
-          <div class="btn-nav me-2" v-if="this.address == ''"><button type="button" class="btn btn-primary" @click="connectWallet">Conectar wallet</button></div>          
+          <div class="btn-nav me-2" v-if="this.address == ''" ><button type="button" class="btn btn-primary" @click="connectWallet">Conectar wallet</button></div>          
         </li>
       </ul>
     </div>
@@ -53,6 +53,10 @@ export default {
       addAddress,
       setContract
     };
+  }, data() {
+    return {
+     exists: { exists:false },
+    };
   },
   methods: {
     async connectWallet() {
@@ -75,17 +79,24 @@ export default {
       } else {
         console.log("Install metamask")
       }
-    }
+    },
   },
   mounted() {
     if(localStorage.getItem('address'))
       this.connectWallet()
-  }
+  },
+  async getPersonByAddress() {
+      const Person = await this.contract.getPersonByAddress(this.address)
+      if (Person.last_name !== ''&&Person.first_name!==''&&Person.email!=='') {
+        this.exists = true;
+      }
+    }
 };
 </script>
 
 <style>
 /*
+
 @import './assets/base.css';
 #app {
   max-width: 1280px;
