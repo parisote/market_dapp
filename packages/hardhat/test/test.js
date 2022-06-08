@@ -17,7 +17,7 @@ describe("ReservApp", function () {
   });
 
   it("Creo un nuevo lugar", async function () {
-    await this.contract.newPlace(0,"Oficina","Oficina",10,{ value: ethers.utils.parseEther("0.0001") })
+    await this.contract.newPlace(0,ethers.utils.parseEther("0.0001") ,10,"Oficina","Oficina","",{ value: ethers.utils.parseEther("0.0001") })
     expect(1).to.equal(1);
   });
 
@@ -40,4 +40,11 @@ describe("ReservApp", function () {
     const aOwner = await this.nft_token.ownerOf(1);
     expect(aOwner).to.equal(this.testPerson.address);
   });
+
+  it("Chequeo si esta vacio", async function () {
+    const aOwner = await this.cTest.getPersonByAddress();
+    console.log(aOwner)
+    expect(true).to.equal(true);
+  });
+
 });
