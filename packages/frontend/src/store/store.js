@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { isProxy, toRaw } from 'vue';
 
 export const useStore = defineStore('main', {
     state: () => {
@@ -16,6 +17,7 @@ export const useStore = defineStore('main', {
             this.address = newAddress;
         },
         setContract(contract) {
+            contract.on("NewPlaceEvent", (_id, index, size, price, category, title, description, image)=>{console.log("Se creo " + title)});
             this.contract = contract;
         }
     },

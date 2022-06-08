@@ -1,12 +1,13 @@
 <template>
+<div style="display: flex; justify-content: center;">
     <div class="card text-center">
     <div class="card-header">
-      {{this.item.price}}
+      {{ this.item.price }}
     </div>
     <div class="card-body">
       <h5 class="card-title">{{ this.item.title }}</h5>
       <p class="card-text">{{ this.item.description }}</p>
-      <img src="https://cloudfront-us-east-1.images.arcpublishing.com/infobae/JFLB5IDXNFFF5AYDTZGDWMJHLA.jpg"/>
+      <img src="https://cloudfront-us-east-1.images.arcpublishing.com/infobae/JFLB5IDXNFFF5AYDTZGDWMJHLA.jpg" width="600" height="500"/>
       <p/>
       <a @click="rentPlace" class="btn btn-primary">Reservar</a>
     </div>
@@ -14,6 +15,7 @@
       {{ this.item.size }} disponibles
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -41,12 +43,9 @@ export default {
   },
   methods:{
     async rentPlace(){
-      console.log(await this.contract.rentPlace(this.item.category,this.item.index, { gasLimit: 3000000, value: ethers.utils.parseEther("0.0001") }))
-      console.log("aca cargo el lugar a mis reservas")
-      //window.alert("Reserva EXITOSA / ERROR en la reserva");
-      if (window.confirm("Confirma la reserva?")) {
-        alert("Compruebo si pudo cargar")
-        window.open("http://localhost:3000/#/MyProduct", "Thanks for Visiting!");
+      console.log(await this.contract.rentPlace(this.item.category,this.item.index, { gasLimit: 3000000, value: ethers.utils.parseEther(this.item.price) }))
+      if (window.confirm("Reserva hecha correctamente")) {
+        this.$router.push({ path: '/MyRents' })
       } 
     }  
   },
@@ -55,12 +54,12 @@ export default {
   },
   async mounted(){
     try{
-      const result = await this.contract.getPlaceById(this.$route.params.id,this.$route.params.category)
+      const result = await this.contract.getPlaceById(this.$route.params.category,this.$route.params.index)
       this.item.index = result.index
       this.item.category = result.category;
       this.item.title = result.title;
       this.item.description = result.description;
-      this.item.price = result.price;
+      this.item.price = ethers.utils.formatEther(result.price, "ethers");
       this.item.size = result.size;
       this.item.image = result.image;
     } catch(error){
