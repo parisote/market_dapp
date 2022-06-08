@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import Card from "@/components/Card.vue";
 import { useStore } from '../store/store.js';
 import { storeToRefs } from 'pinia';
 import CardReservas from "@/components/CardMisReservas.vue";
@@ -35,6 +36,7 @@ setup() {
     };
   },
   data(){
+
       return {
         address: this.address,
         items: [], 
@@ -62,5 +64,6 @@ setup() {
 .todoElAncho{
   margin-right: 100px;
   margin-left: 100px;
+
 }
 </style>
