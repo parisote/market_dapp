@@ -75,7 +75,7 @@ export default {
     }
   },
   mounted() {
-    if(localStorage.getItem('address'))
+//    if(localStorage.getItem('address'))
       this.connectWallet()
   }
 };
