@@ -40,7 +40,7 @@ export default {
     name: "Card",
   computed: {
     place() {
-      return "#/LayoutPlace/" + this.id + "/Cocheras/" + this.nombre +'/'+ this.descripcion +"/"+ this.price +"/"+ this.puntaje +"/"+ this.cantDisponible 
+      return "#/LayoutPlace/" + this.id + "/" + 0
     }
   }
 };
