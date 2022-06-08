@@ -42,6 +42,12 @@ export default {
   methods:{
     async rentPlace(){
       console.log(await this.contract.rentPlace(this.item.category,this.item.index, { gasLimit: 3000000, value: ethers.utils.parseEther("0.0001") }))
+      console.log("aca cargo el lugar a mis reservas")
+      //window.alert("Reserva EXITOSA / ERROR en la reserva");
+      if (window.confirm("Confirma la reserva?")) {
+        alert("Compruebo si pudo cargar")
+        window.open("http://localhost:3000/#/MyProduct", "Thanks for Visiting!");
+      } 
     }  
   },
   data(){

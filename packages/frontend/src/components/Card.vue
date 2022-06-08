@@ -10,7 +10,7 @@
                         <div class="cell"><b><a class="nav-link" :href="place">{{nombre}}</a></b></div>
                     </div>
                     <div class="flex row">
-                        <div class="card-text cell" style="height: 80px"><small class="text-muted">{{zona}}</small></div>
+                        <div class="card-text cell" style="height: 80px"><small class="text-muted">{{descripcion}}</small></div>
                     </div>              
                 </div>
             </div>
