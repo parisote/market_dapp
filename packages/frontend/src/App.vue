@@ -159,6 +159,7 @@ export default {
         Person.first_name !== "" &&
         Person.email !== ""
       ) {
+        console.log(Person)
         this.setPerson(Person);
       }
 

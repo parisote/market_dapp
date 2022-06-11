@@ -54,7 +54,7 @@ export default {
     async createCategory(){
     try{
       await this.contract.newCategory(this.category.nombre, this.category.description, this.category.image, { gasLimit: 3000000 });
-    } catch(error){
+    }catch(error){
         let msg = error;
         toast({
           message: msg,

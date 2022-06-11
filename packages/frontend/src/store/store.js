@@ -20,11 +20,14 @@ export const useStore = defineStore('main', {
             if(!localStorage.getItem('address')){
                 localStorage.setItem('address',newAddress);
             }
-            this.address = newAddress;
+            this.address = newAddress; 
         },
         setContract(contract) {
-            contract.on("NewPlaceEvent", (_id, index, size, price, category, title, description, image)=>{this.messageSuccess("Se creo correctamente " + title)});
-            contract.on("NewCategoryEvent", (index, name, description, image)=>{this.messageSuccess("Se rento correctamente " + name); this.intializeCategories()});
+            contract.on("NewPlaceEvent", (_id, index, size, price, category, title, description, image)=>{ this.messageSuccess("Se creo correctamente " + title) });
+            contract.on("NewCategoryEvent", (index, name, description, image)=>{ 
+                this.messageSuccess("Se creo correctamente " + name);
+                this.intializeCategories(); 
+            });
             contract.on("NewRentEvent", (user, category, index, name, description)=>{this.messageSuccess("Se rento correctamente " + name)});
             this.contract = contract;
         },
@@ -32,6 +35,8 @@ export const useStore = defineStore('main', {
             try{
                 let result = await this.contract.isOwner();
                 this.isOwner = result;
+
+                localStorage.setItem("isOwner", result);
              } catch (error){
                  console.log(error)
              }  

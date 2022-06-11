@@ -7,19 +7,16 @@ import AddLocation from '../components/AddLocation.vue'
 import AddCategory from '../components/AddCategory.vue'
 import LayoutPlace from '../components/LayoutPlace.vue'
 import Login from '../components/Login.vue'
-import { createPinia } from 'pinia'
-
-//app.use(createPinia())
 
 const routes = [
     { path: '/', name:"Home", component: Home },
-    { path: '/MyRents', component: MyRents },
-    { path: '/MyPlaces', component: MyPlaces },
+    { path: '/MyRents', component: MyRents, meta: { requiresAuth: true } },
+    { path: '/MyPlaces', component: MyPlaces, meta: { requiresAuth: true } },
     { path: '/Layout/:index/:Categoria', component: Layout },
-    { path: '/AddLocation', component: AddLocation },
-    { path: '/AddCategory', component: AddCategory },
+    { path: '/AddLocation', component: AddLocation, meta: { requiresAuth: true }},
+    { path: '/AddCategory', name:"AddCategory", component: AddCategory, meta: { requiresAuth: true } },
     { path: '/LayoutPlace/:index/:category', component: LayoutPlace },
-    { path: '/Login', name: "Login", component: Login}
+    { path: '/Login', name: "Login", component: Login, meta: { requiresAuth: true }}
 ]
 
 const router = createRouter({
@@ -29,13 +26,12 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from) => {
-    if (
-        !localStorage.getItem('address') &&
-        to.name !== 'Login'
-      ) {
-        // redirect the user to the login page
-        return { name: 'Home' }
-      }
+  if((to.name == "AddCategory") && (localStorage.getItem("isOwner") === 'false')){
+    return { name: 'Home' }
+  }
+  if (to.meta.requiresAuth && !localStorage.getItem("address")) {
+    return { name: 'Home' }
+  }
 })
 
 export default router

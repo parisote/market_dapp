@@ -34,7 +34,6 @@ setup() {
     };
   },
   data(){
-
       return {
         address: this.address,
         items: [], 
