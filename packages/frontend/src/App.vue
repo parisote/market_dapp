@@ -17,7 +17,7 @@
 
     <div id="navbarBasicExample" class="navbar-menu">
       <div class="navbar-start">
-        <a class="navbar-item"> About </a>
+        <a class="navbar-item" :href="about">About us</a>
 
         <router-link
           class="navbar-item"
@@ -129,6 +129,11 @@ export default {
     return {
       exists: false,
     };
+  },
+    computed: {
+    about() {
+      return "#/About/"
+    }
   },
   methods: {
     async connectWallet() {

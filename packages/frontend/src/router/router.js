@@ -7,9 +7,11 @@ import AddLocation from '../components/AddLocation.vue'
 import AddCategory from '../components/AddCategory.vue'
 import LayoutPlace from '../components/LayoutPlace.vue'
 import Login from '../components/Login.vue'
+import About from '../components/AboutUs.vue'
 
 const routes = [
     { path: '/', name:"Home", component: Home },
+    { path: '/About', component: About },
     { path: '/MyRents', component: MyRents, meta: { requiresAuth: true } },
     { path: '/MyPlaces', component: MyPlaces, meta: { requiresAuth: true } },
     { path: '/Layout/:index/:Categoria', component: Layout },
