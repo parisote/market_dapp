@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="title" style="text-align: center"><b>Bienvenido a tus reservas!!</b></h1>
+    <h1 class="title" style="text-align: center"><b>Panel usuario</b></h1>
   </div>
   <div class='row todoElAncho'>
     <CardMisReservas 
@@ -40,15 +40,16 @@ setup() {
         items: [], 
       };
   },
-  async created(){
-    const result = await this.contract.getMyPlaces();
+  async mounted(){
+        const result = await this.contract.getMyPlaces();
 
-    for (let i = 0; i < result.length; i++) {
-        this.items.push({
-          title: result[i].title,
-          descripcion: result[i].description,
-        });
-      } 
+  for (let i = 0; i < result.length; i++) {
+      this.items.push({
+        title: result[i].title,
+        descripcion: result[i].description,
+      });
+    } 
+      console.log(result[0].title)
   },
 
 };

@@ -3,7 +3,7 @@
     <div class="container" id="container">
       <div class="row">
         <div class="col-12" style="text-align: center; margin-top: 0.5em">
-          <h1>Login</h1>
+          <h1 class="title">Login</h1>
         </div>
       </div>
     </div>
@@ -33,13 +33,13 @@
 <script>
 import { useStore } from '../store/store.js';
 import { storeToRefs } from 'pinia';
-
+import { toast } from 'bulma-toast'
 export default {
      name: "Login",
   setup() {
     const store = useStore();
     const { contract } = storeToRefs(store);
-    const { setContract } = store;    
+    const { setContract,  } = store;    
     return {
       store,
       contract,
@@ -54,8 +54,21 @@ export default {
     };
   },
   methods:{
-    async linkedPerson(){    
-    console.log(await this.contract.linkedPerson(this.user.nombre, this.user.apellido, this.user.email) )}
+    async linkedPerson(){
+      try{
+        await this.contract.linkedPerson(this.user.nombre, this.user.apellido, this.user.email, { gasLimit: 3000000 })
+      } catch(error){
+        let msg = error;
+        toast({
+          message: msg,
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+          duration: 2000,
+          position: "bottom-right"
+        })
+      }
     }
+  }
   };
 </script>

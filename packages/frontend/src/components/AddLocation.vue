@@ -3,7 +3,7 @@
     <div class="container" id="container">
       <div class="row">
         <div class="col-12" style="text-align: center; margin-top: 0.5em">
-          <h1>Agregar nueva locacion</h1>
+          <h1 class="title">Agregar nueva locacion</h1>
         </div>
       </div>
     </div>
@@ -34,8 +34,7 @@
       <div class="mb-3">
         <label for="disabledSelect" class="form-label">Categoría</label>
         <select id="disabledSelect" class="form-select" v-model="location.category">
-          <option>Cochera</option>
-          <option>Escritorios Flex</option>
+          <option v-for="item in this.categories" :value="item.index">{{ item.name }}</option>
         </select>
       </div>
       <div class="mb-3">
@@ -51,16 +50,18 @@
 import { useStore } from '../store/store.js';
 import { storeToRefs } from 'pinia';
 import { ethers } from "ethers";
+import { toast } from 'bulma-toast'
 
 export default {
   name: "AddLocation",
   setup() {
     const store = useStore();
-    const { contract } = storeToRefs(store);
+    const { contract, categories } = storeToRefs(store);
     const { setContract } = store;    
     return {
       store,
       contract,
+      categories,
       setContract
     };
   },
@@ -73,14 +74,19 @@ export default {
   },
   methods:{
     async createLocation(){
-    let category_id = '';
-    if(this.location.category === "Escritorios Flex")
-      category_id = 0
-    else 
-      category_id = 1;
-
-    console.log(this.contract)
-    await this.contract.newPlace(category_id,ethers.utils.parseEther("0."+this.location.precio),this.location.size,this.location.nombre,this.location.descripcion,this.location.image, { gasLimit: 3000000, value: ethers.utils.parseEther("0.0001") });
+    try{
+      await this.contract.newPlace(this.location.category,ethers.utils.parseEther("0."+this.location.precio),this.location.size,this.location.nombre,this.location.descripcion,this.location.image, { gasLimit: 3000000, value: ethers.utils.parseEther("0.0001") });
+    } catch(error){
+        let msg = error;
+        toast({
+          message: msg,
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+          duration: 2000,
+          position: "bottom-right"
+        })
+      }
   }
   }
 }; 
