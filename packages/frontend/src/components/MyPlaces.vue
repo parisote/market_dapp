@@ -1,9 +1,9 @@
 <template>
   <div>
-    <h1 style="text-align: center"><b>Bienvenido a tus reservas!!</b></h1>
+    <h1 class="title" style="text-align: center"><b>Panel usuario</b></h1>
   </div>
   <div class='row todoElAncho'>
-    <CardReservas 
+    <CardMisReservas 
       v-for="item in items"
           :key="item.id"  
           :title="item.title"
@@ -13,15 +13,13 @@
 </template>
 
 <script>
-import Card from "@/components/Card.vue";
 import { useStore } from '../store/store.js';
 import { storeToRefs } from 'pinia';
-import CardReservas from "@/components/CardMisReservas.vue";
-import { ethers } from "ethers";
+import CardMisReservas from "@/components/CardMisReservas.vue";
 
 export default {
   components: {
-    CardReservas,
+    CardMisReservas,
   },
 setup() {
     const store = useStore();
@@ -36,18 +34,13 @@ setup() {
     };
   },
   data(){
-
       return {
         address: this.address,
         items: [], 
       };
   },
   async mounted(){
-    console.log(this.address)
-    console.log(this.contract)
-//    console.log(items = await this.contract.getMyPlaces())
-
-    const result = await this.contract.getMyPlaces();
+        const result = await this.contract.getMyPlaces();
 
   for (let i = 0; i < result.length; i++) {
       this.items.push({

@@ -40,14 +40,14 @@ export default {
     name: "Card",
   computed: {
     place() {
-      return "#/LayoutPlace/" + this.id + "/Cocheras/" + this.nombre +'/'+ this.descripcion +"/"+ this.price +"/"+ this.puntaje +"/"+ this.cantDisponible 
+      return "#/LayoutPlace/" + this.id + "/" + 0
     }
   }
 };
 </script>
 
 <style>
-.card {
+ .card {
     box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
     border-radius: 5px;

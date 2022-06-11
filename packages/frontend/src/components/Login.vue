@@ -3,11 +3,11 @@
     <div class="container" id="container">
       <div class="row">
         <div class="col-12" style="text-align: center; margin-top: 0.5em">
-          <h1>Login</h1>
+          <h1 class="title">Login</h1>
         </div>
       </div>
     </div>
-    <form>
+    <form @submit.prevent="onSubmit">
         <div class="mb-3">
          <label class="col-sm-2 col-form-label">Nombre</label>
          <div class="col-sm-10">
@@ -33,14 +33,13 @@
 <script>
 import { useStore } from '../store/store.js';
 import { storeToRefs } from 'pinia';
-import { ethers } from "ethers";
-
+import { toast } from 'bulma-toast'
 export default {
      name: "Login",
   setup() {
     const store = useStore();
     const { contract } = storeToRefs(store);
-    const { setContract } = store;    
+    const { setContract,  } = store;    
     return {
       store,
       contract,
@@ -55,17 +54,21 @@ export default {
     };
   },
   methods:{
-    async linkedPerson(){    
-    console.log(await this.contract.linkedPerson(this.user.nombre, this.user.apellido, this.user.email) )}
-    },
-  created: async function () {
-    try {
-      const rta = await this.contract.getPersonByAddress(this.address)
-      this.lista = rta.data;
-    } catch (error) {
-      this.mensajeError = "No se pudo obtener los datos ";
-      console.log(error.error);
+    async linkedPerson(){
+      try{
+        await this.contract.linkedPerson(this.user.nombre, this.user.apellido, this.user.email, { gasLimit: 3000000 })
+      } catch(error){
+        let msg = error;
+        toast({
+          message: msg,
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+          duration: 2000,
+          position: "bottom-right"
+        })
+      }
     }
-  } 
+  }
   };
 </script>

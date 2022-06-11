@@ -3,12 +3,24 @@
     <div class="container" id="container">
       <div class="row">
         <div class="col-12" style="text-align: center; margin-top: 0.5em">
-          <h1>{{ $route.params.Categoria }}</h1>
+          <h1 class="title">{{ $route.params.Categoria }}</h1>
         </div>
       </div>
     </div>
-    <div class="container-fluid">
-      <div class="listContainer">
+    <div class="container-fluid row" style="margin-top:16px">
+        <Card
+          v-for="item in items"
+          :key="item.id"
+          :id="item.id"
+          :index="item.index"
+          :category="item.category"
+          :nombre="item.title"
+          :price="item.price"
+          :puntaje="item.puntaje"
+          :descripcion="item.descripcion"
+          :image="item.image"
+          :cantDisponible="item.cantDisponible"/>
+      <!--<div class="listContainer">
         <Card
           v-for="item in items"
           :key="item.id"
@@ -19,14 +31,13 @@
           :descripcion="item.descripcion"
           :image="item.image"
           :cantDisponible="item.cantDisponible"
-        />
+        />-->
       </div>
     </div>
-  </div>
 </template>
 
 <script>
-import Card from "@/components/Card.vue";
+import Card from "@/components/Card3.vue";
 import { useStore } from "../store/store.js";
 import { storeToRefs } from "pinia";
 import { ethers } from "ethers";
@@ -51,20 +62,16 @@ export default {
   data() {
     return { items: [] };
   },
-  async created() {
-    let category = "";
-    if (this.$route.params.Categoria === "Cocheras")
-      category = 1;
-    else
-      category = 0;
-    
-    const result = await this.contract.getPlacesByCategory(category);
+  async created() {    
+    const result = await this.contract.getPlacesByCategory(this.$route.params.index);
 
     for (let i = 0; i < result.length; i++) {
       this.items.push({
         id: result[i].id,
+        index: result[i].index,
+        category: result[i].category,
         title: result[i].title,
-        price: ethers.utils.formatEther(result[i][2], "ethers"),
+        price: ethers.utils.formatEther(result[i].price, "ethers"),
         puntaje: 9,
         image: result[i].image,
         descripcion: result[i].description,
