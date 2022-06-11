@@ -112,6 +112,7 @@ describe("ReservApp", function () {
     const balanceBefore = await provider.getBalance(this.testPersonA.address);
     this.cTestA.withdraw();    
     const balanceAfter = await provider.getBalance(this.testPersonA.address);
+    console.log(ethers.utils.formatEther(balanceBefore))
     console.log(ethers.utils.formatEther(balanceAfter))
     console.log(ethers.utils.formatEther(balanceBefore.add(ethers.utils.parseEther("10"))))
     expect(1).to.equal(1);

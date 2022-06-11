@@ -17,5 +17,12 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  solidity: "0.8.4"  
+  solidity: "0.8.4",
+  networks: {
+    goerli: {
+      url: "https://eth-goerli.alchemyapi.io/v2/0DFW2gLBX1dudzPOoM5PZ1uGQD9j_Qgk",
+      accounts: [process.env.PRIVATE_KEY],
+      gasPrice: 8000000000
+    },
+  },
 };
