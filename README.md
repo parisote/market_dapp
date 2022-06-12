@@ -1,11 +1,5 @@
 # Proyecto ReservaDapp
 
-- Home
-- About
-- Crear Lugar
-- Lugares
-- FAQ
-
 ### Necesarios 
 Vue
 
@@ -48,6 +42,9 @@ cd packages
 cd frontend
 npm run dev
 ```
+
+### Indexacion de eventos en blockchain (Tesnet Goerli)
+Utilizamos [TheGrap](https://thegraph.com/en/) para hacer la indexacion de los eventos generados por los smart contract
 
 ## Authors
 
