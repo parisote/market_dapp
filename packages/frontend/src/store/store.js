@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import { isProxy, toRaw } from 'vue';
 import { toast } from "bulma-toast"
+import ApolloClient from 'apollo-boost'
+import gql from 'graphql-tag'
 
 export const useStore = defineStore('main', {
     state: () => {
@@ -43,8 +45,27 @@ export const useStore = defineStore('main', {
         },
         async intializeCategories(){
             try{
-               let result = await this.contract.getCategories();
-               this.categories = result;
+               //let result = await this.contract.getCategories();
+               //this.categories = result;
+
+            const apolloClient = new ApolloClient({
+                // You should use an absolute URL here
+                uri: import.meta.env.VITE_API_SUBGRAPH
+            })
+
+            const q = gql`
+                query {
+                    newCategoryEvents(first: 3) {
+                    id
+                    index
+                    name
+                    description
+                    image
+                }
+                }`;
+            const l = await apolloClient.query({ query: q })
+            this.categories = l.data.newCategoryEvents
+
             } catch (error){
                 console.log(error)
             }            

@@ -47,6 +47,7 @@ export function handleNewPlaceEvent(event: NewPlace): void {
   newPlace.size = event.params.size;
   newPlace.price = event.params.price;
   newPlace.title = event.params.title;
+  newPlace.category = event.params.category;
   newPlace.description = event.params.description;
   newPlace.image = event.params.image;
   newPlace.save();

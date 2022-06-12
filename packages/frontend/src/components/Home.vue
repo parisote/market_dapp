@@ -7,7 +7,10 @@
         </div>
       </div>
     </div>
-    <div class="row" style="margin-left: 10px display: flex; justify-content: center; margin-top:16px">
+    <div
+      class="row"
+      style="margin-left: 10px display: flex; justify-content: center; margin-top:16px"
+    >
       <Categoria
         v-for="item in this.categories"
         :key="item.index"
@@ -24,8 +27,8 @@
 // @ is an alias to /src
 
 import Categoria from "@/components/Categoria.vue";
-import { useStore } from '../store/store.js';
-import { storeToRefs } from 'pinia';
+import { useStore } from "../store/store.js";
+import { storeToRefs } from "pinia";
 
 export default {
   name: "home",
@@ -35,15 +38,15 @@ export default {
   setup() {
     const store = useStore();
     const { categories } = storeToRefs(store);
-    const { intializeCategories } = store;    
+    const { intializeCategories } = store;
     return {
       categories,
-      intializeCategories
+      intializeCategories,
     };
   },
-  async created(){
-      this.intializeCategories();
-  }
+  async created() {
+    this.intializeCategories();
+  },
 };
 </script>
 <style scoped>
