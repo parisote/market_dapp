@@ -9,14 +9,14 @@ Metamask
 ```
 cd packages
 cd frontend
-npm i --only=production
+npm i
 ```
 
 ### Instalar dependencias de back
 ```
 cd packages
 cd hardhat
-npm i --only=production
+npm i
 ```
 
 ### Agregar ETH en Chainlink (faucets.chain.link/goerli)
