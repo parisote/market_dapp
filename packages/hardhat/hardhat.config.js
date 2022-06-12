@@ -17,13 +17,23 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  * @type import('hardhat/config').HardhatUserConfig
  */
 
+const GOERLI_PRIVATE_KEY = "4dc8d11b9023de456fabe7c98289b1328d40cc173721b944c775d540da034f3b";
+
 module.exports = {
   solidity: "0.8.4",
   networks: {
     goerli: {
-      url: "https://eth-goerli.alchemyapi.io/v2/GIO_ZbH8YuWfq1n7JgfEAl8ehMslfER5",
-      accounts: [`${GOERLI_PRIVATE_KEY}`],
+      url: "https://eth-goerli.alchemyapi.io/v2/6I8_ORnqsNDUIyf0BHZKjhHsfeM4Wa5T",
+      accounts: ["4dc8d11b9023de456fabe7c98289b1328d40cc173721b944c775d540da034f3b"],
       gasPrice: 8000000000
     },
+    matic: {
+      url: "https://polygon-mumbai.g.alchemy.com/v2/6YR8gYUXJwyfdtNjTEzkQl8iiblI7kZA",//"https://rpc-mumbai.maticvigil.com",
+      accounts: ["4dc8d11b9023de456fabe7c98289b1328d40cc173721b944c775d540da034f3b"]
+    },
+    maticDapp: {
+      url: "https://polygon-mumbai.g.alchemy.com/v2/R5RrRZmPWPH6ujD4lJFRxWvS7K1jiopY",//"https://rpc-mumbai.maticvigil.com",
+      accounts: ["4dc8d11b9023de456fabe7c98289b1328d40cc173721b944c775d540da034f3b"]
+    }
   },
 };

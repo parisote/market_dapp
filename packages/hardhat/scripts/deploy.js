@@ -9,13 +9,16 @@ async function main() {
   //const NFT = await hre.ethers.getContractFactory("ReservaNFT");
   //const nft = await NFT.deploy();
 
-  //const nft = "0x9CcD4a1Cc462b0188377EA24d084D2ECff298969";
-  //const dappa = "0x7322F7655D19dc6f3355CE0CfE6780962597cE45";
+  //await nft.deployed();
+
+  //console.log("NFT deployed to:", nft.address);
+
+  const nft = "0xff7998D7a9aa733819601920f6cf603dB11D667B";
+  //const dappa = "0x43484005E6a39C941e2e8aEC2EDCDe6aE89d3306";
 
   const ReservApp = await hre.ethers.getContractFactory("ReservApp");
   const dapp = await ReservApp.deploy(nft);
-  //await dapp.deployed();
-
+  await dapp.deployed();  
   console.log("dapp deployed to:", dapp.address);
 }
 

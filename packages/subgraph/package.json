@@ -1,15 +1,16 @@
 {
-  "name": "@market_dapp/subgraph",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "Reservdapp",
+  "license": "UNLICENSED",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ parisote/Reservdapp",
+    "create-local": "graph create --node http://localhost:8020/ parisote/Reservdapp",
+    "remove-local": "graph remove --node http://localhost:8020/ parisote/Reservdapp",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 parisote/Reservdapp"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "@graphprotocol/graph-cli": "^0.26.1"
+    "@graphprotocol/graph-cli": "0.30.4",
+    "@graphprotocol/graph-ts": "0.27.0"
   }
 }
