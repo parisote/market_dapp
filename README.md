@@ -2,8 +2,7 @@
 
 ### Necesarios 
 Vue
-
-Metamask
+Metamask (Con conexion a Goerli y ETH de prueba)
 
 ### Instalar dependencias del front
 ```
