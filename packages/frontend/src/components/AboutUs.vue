@@ -3,21 +3,24 @@
         <h2>NUEVA TECNOLOGIAS - PROYECTO FINAL</h2>
         <p><em>Nuestro Equipo</em></p>
     </div>
-    <div id="contenedor">
+    <div class="container rounded bg-white mt-5 mb-5">
         <center>
-                <div class="col">
-                    <img class="circular--square foto1" src="@/assets/IMG_7400.jpg">Alfonso
-                    <img class="circular--square foto1" src="@/assets/IMG_7401.jpg">Tomas Climent
-                    <img class="circular--square foto1" src="@/assets/IMG_7404.jpg">Fede Jamus
+            <div class="row">
+                <div class="col-md-3 border-right">
+                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="circular--square foto1" width="150px" src="@/assets/IMG_7400.jpg"><span class="font-weight-bold">Alfonso</span><span class="text-black-50">edogaru@mail.com.my</span><span> </span></div>
                 </div>
-                <div class="col">
-                    <img class="circular--square foto1" src="https://placeimg.com/200/200/animals">Agostina
-                    <img class="circular--square foto1" src="https://placeimg.com/200/200/animals">Diego
+                <div class="col-md-3 border-right">
+                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="circular--square foto1" width="150px" src="@/assets/IMG_7401.jpg"><span class="font-weight-bold">Tomas Climent</span><span class="text-black-50">edogaru@mail.com.my</span><span> </span></div>
                 </div>
-
+                <div class="col-md-3 border-right">
+                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="circular--square foto1" width="150px" src="@/assets/IMG_7404.jpg"><span class="font-weight-bold">Fede Jamus</span><span class="text-black-50">edogaru@mail.com.my</span><span> </span></div>
+                </div>
+                <div class="col-md-3 border-right">
+                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="circular--square foto1" width="150px" src="https://placeimg.com/200/200/animals"><span class="font-weight-bold">Diego</span><span class="text-black-50">edogaru@mail.com.my</span><span> </span></div>
+                </div>
+            </div>
         </center>
     </div>
-
 
     <div class="pageitem">
         <p>Phasellus ac leo eget felis egestas vestibulum nec at velit. Vivamus venenatis, nibh ut tempus viverra, tellus augue pulvinar sapien, at iaculis justo nisi non metus. Quisque quis malesuada arcu, sed ultricies nibh. Duis vehicula metus quis arcu rutrum faucibus eget ut ex. Curabitur lacus justo, iaculis congue suscipit quis, posuere at turpis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec in quam non urna volutpat consequat. Proin mollis ut mauris et venenatis. Vivamus dui nibh, blandit vitae pellentesque sed, finibus sit amet nulla.</p>
