@@ -37,7 +37,6 @@ let uploadFile = upload.createFileInputHandler({
     const s = useStore()
     const { setPreImage } = s; 
     const p = fileUrl.split('/')[3]
-    console.log(p)
     setPreImage(p)
   }
 });
@@ -67,7 +66,7 @@ export default {
     try{
       await this.contract.newCategory(this.category.nombre, this.category.description, this.preImage, { gasLimit: 3000000 });
     }catch(error){
-        let msg = error;
+        let msg = error.code;
         toast({
           message: msg,
           type: "is-danger",

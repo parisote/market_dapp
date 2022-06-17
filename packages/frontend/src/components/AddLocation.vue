@@ -90,7 +90,7 @@ export default {
       console.log()
       await this.contract.newPlace(this.location.category,ethers.utils.parseEther("0."+this.location.precio),this.location.size,this.location.nombre,this.location.descripcion,this.preImage, { gasLimit: 3000000, value: ethers.utils.parseEther("0.0001") });
     } catch(error){
-        let msg = error;
+        let msg = error.code;
         toast({
           message: msg,
           type: "is-danger",
