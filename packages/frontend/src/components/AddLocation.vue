@@ -9,7 +9,7 @@
     </div>
     <form @submit.prevent="onSubmit">
       <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label" >Nombre</label>
+        <label for="exampleInputEmail1" class="form-label">Nombre</label>
         <input class="form-control" type="text" v-model="location.nombre" />
       </div>
       <div class="mb-3">
@@ -39,9 +39,9 @@
       </div>
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label" >Imagen</label>
-        <input class="form-control" type="text" v-model="location.image" />
+        <input class="form-control" type="file" @change="uploadFile" />
       </div>
-      <button class="btn btn-primary" v-on:click="createLocation"> Enviar</button>
+      <button id="btnSend" class="btn btn-primary" v-on:click="createLocation" :disabled="this.preImage === ''">Enviar</button>
     </form>
   </div>
 </template>
@@ -51,17 +51,29 @@ import { useStore } from '../store/store.js';
 import { storeToRefs } from 'pinia';
 import { ethers } from "ethers";
 import { toast } from 'bulma-toast'
+import { Upload } from "upload-js"
+
+let upload = new Upload({apiKey: import.meta.env.VITE_PUBLIC_IMAGE})
+let uploadFile = upload.createFileInputHandler({
+  onUploaded: ({ fileUrl, fileId }) => {
+    const s = useStore()
+    const { setPreImage } = s; 
+    const p = fileUrl.split('/')[3]
+    setPreImage(p)
+  }
+});
 
 export default {
   name: "AddLocation",
   setup() {
     const store = useStore();
-    const { contract, categories } = storeToRefs(store);
+    const { contract, categories, preImage } = storeToRefs(store);
     const { setContract } = store;    
     return {
       store,
       contract,
       categories,
+      preImage,
       setContract
     };
   },
@@ -75,7 +87,8 @@ export default {
   methods:{
     async createLocation(){
     try{
-      await this.contract.newPlace(this.location.category,ethers.utils.parseEther("0."+this.location.precio),this.location.size,this.location.nombre,this.location.descripcion,this.location.image, { gasLimit: 3000000, value: ethers.utils.parseEther("0.0001") });
+      console.log()
+      await this.contract.newPlace(this.location.category,ethers.utils.parseEther("0."+this.location.precio),this.location.size,this.location.nombre,this.location.descripcion,this.preImage, { gasLimit: 3000000, value: ethers.utils.parseEther("0.0001") });
     } catch(error){
         let msg = error;
         toast({
@@ -87,7 +100,8 @@ export default {
           position: "bottom-right"
         })
       }
-  }
+    },
+    uploadFile
   }
 }; 
 </script>

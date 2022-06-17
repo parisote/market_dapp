@@ -32,7 +32,7 @@
 
     <div class="card-image">
       <figure class="image is-16by9">
-        <img src="https://cloudfront-us-east-1.images.arcpublishing.com/infobae/JFLB5IDXNFFF5AYDTZGDWMJHLA.jpg" width="600" height="500" alt="Placeholder image">
+        <img src="https://cloudfront-us-east-1.images.arcpublishing.com/infobae/JFLB5IDXNFFF5AYDTZGDWMJHLA.jpg" width="600" height="500" alt="Image">
       </figure>
     </div>
     <div class="card-content">

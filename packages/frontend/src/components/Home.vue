@@ -17,7 +17,7 @@
         :id="item.index"
         :title="item.name"
         :description="item.description"
-        :image="item.image"
+        :image="'https://upcdn.io/'+item.image"
       />
     </div>
   </div>

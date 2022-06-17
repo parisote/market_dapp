@@ -9,18 +9,18 @@
     </div>
     <form @submit.prevent="onSubmit">
       <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label" >Nombre</label>
+        <label for="inputNombre" class="form-label" >Nombre</label>
         <input class="form-control" type="text" v-model="category.nombre" />
       </div>
       <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label" >Descripcion</label>
+        <label for="inputDescription" class="form-label" >Descripcion</label>
         <input class="form-control" type="text" v-model="category.description" />
       </div>
-    <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label" >Imagen</label>
-        <input class="form-control" type="text" v-model="category.image" />
+      <div class="mb-3">
+        <label for="inputImage" class="form-label" >Imagen</label>
+        <input class="form-control" type="file" @change="uploadFile" />
       </div>
-      <button class="btn btn-primary" v-on:click="createCategory"> Enviar</button>
+      <button class="btn btn-primary" v-on:click="createCategory" :disabled="this.preImage === ''"> Enviar</button>
     </form>
   </div>
 </template>
@@ -28,18 +28,30 @@
 <script>
 import { useStore } from '../store/store.js';
 import { storeToRefs } from 'pinia';
-import { ethers } from "ethers";
 import { toast } from 'bulma-toast'
+import { Upload } from "upload-js"
+
+let upload = new Upload({apiKey: import.meta.env.VITE_PUBLIC_IMAGE})
+let uploadFile = upload.createFileInputHandler({
+  onUploaded: ({ fileUrl, fileId }) => {
+    const s = useStore()
+    const { setPreImage } = s; 
+    const p = fileUrl.split('/')[3]
+    console.log(p)
+    setPreImage(p)
+  }
+});
 
 export default {
   name: "AddCategory",
   setup() {
     const store = useStore();
-    const { contract } = storeToRefs(store);
+    const { contract, preImage } = storeToRefs(store);
     const { setContract } = store;    
     return {
       store,
       contract,
+      preImage,
       setContract
     };
   },
@@ -53,7 +65,7 @@ export default {
   methods:{
     async createCategory(){
     try{
-      await this.contract.newCategory(this.category.nombre, this.category.description, this.category.image, { gasLimit: 3000000 });
+      await this.contract.newCategory(this.category.nombre, this.category.description, this.preImage, { gasLimit: 3000000 });
     }catch(error){
         let msg = error;
         toast({
@@ -65,7 +77,8 @@ export default {
           position: "bottom-right"
         })
       }
-  }
+  },
+    uploadFile
   }
 }; 
 </script>

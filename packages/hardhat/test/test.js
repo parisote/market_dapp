@@ -112,10 +112,14 @@ describe("ReservApp", function () {
     const balanceBefore = await provider.getBalance(this.testPersonA.address);
     this.cTestA.withdraw();    
     const balanceAfter = await provider.getBalance(this.testPersonA.address);
-    console.log(ethers.utils.formatEther(balanceBefore))
-    console.log(ethers.utils.formatEther(balanceAfter))
-    console.log(ethers.utils.formatEther(balanceBefore.add(ethers.utils.parseEther("10"))))
-    expect(1).to.equal(1);
+    const resultA = ethers.utils.formatEther(balanceAfter).split('.')[0]
+    const resultB = ethers.utils.formatEther(balanceBefore.add(ethers.utils.parseEther("10"))).split('.')[0]
+    expect(resultA).to.equal(resultB);
+  });
+
+  it("Destoy contract", async function () {
+    const d = await this.contract.destroy();
+    expect(d.confirmations).to.equal(1);
   });
 
 });

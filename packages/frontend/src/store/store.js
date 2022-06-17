@@ -14,7 +14,8 @@ export const useStore = defineStore('main', {
             categories: [],
             sizeRent: 0,
             person: {},
-            provider: ""
+            provider: "",
+            preImage: ""
         }
     },
     actions: {
@@ -63,6 +64,7 @@ export const useStore = defineStore('main', {
                     image
                 }
                 }`;
+
             const l = await apolloClient.query({ query: q })
             this.categories = l.data.newCategoryEvents
 
@@ -104,6 +106,9 @@ export const useStore = defineStore('main', {
               this.addAddress(account);
               this.initializeOwner();
             }
-          }
+        },
+        setPreImage(image){
+            this.preImage = image
+        }
     },
 });

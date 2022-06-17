@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
-import "@openzeppelin/contracts/access/Ownable.sol";
 
 interface IReservaNFT {
     function mintNFT(address owner) external returns(uint256);
@@ -9,11 +8,12 @@ interface IReservaNFT {
 error NewPlaceError();
 error RentError();
 
-contract ReservApp is Ownable{
+contract ReservApp{
     uint256 private _id;
     uint8 private _id_category;
     bool private _lock = false;
     Category[] private _category;
+    address private _owner;
     mapping(uint8 => Place[]) private _places;
     mapping(address => PlaceRent[]) private _rent;
     mapping(address => uint256) private _bank;
@@ -90,6 +90,11 @@ contract ReservApp is Ownable{
         _;
     }
 
+    modifier onlyOwner(){
+        require(_owner == msg.sender, 'You arent owner');
+        _;
+    }
+
     modifier checkLock(){
         require(!_lock);
         _lock = true;
@@ -98,11 +103,12 @@ contract ReservApp is Ownable{
     }
 
     constructor(address _nft){
-        nft_address = IReservaNFT(address(_nft));
+        _owner = msg.sender;
+        nft_address = IReservaNFT(address(_nft));        
     }
 
     function isOwner() public view returns(bool){
-        return owner() == msg.sender;
+        return _owner == msg.sender;
     }
 
     function getCategories() public view returns(Category[] memory){
@@ -171,6 +177,10 @@ contract ReservApp is Ownable{
 
     function getBalance() public view returns(uint256){
         return _bank[msg.sender];
+    }
+
+    function destroy() public onlyOwner{
+        selfdestruct(payable(_owner));
     }
 
     fallback() external payable{ }

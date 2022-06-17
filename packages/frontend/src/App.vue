@@ -1,4 +1,5 @@
 <template>
+<div id="wrapper">
   <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <router-link class="navbar-item" to="/">ReservApp</router-link>
@@ -77,8 +78,7 @@
             <router-link
               v-if="this.person.first_name == ''"
               class="navbar-item"
-              to="/Login"
-            >
+              to="/Login">
               Vincular usuario
             </router-link>
           </div>
@@ -86,7 +86,19 @@
       </div>
     </div>
   </nav>
+  <div class="section">
   <router-view></router-view>
+  </div>
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Bulma</strong> by <a href="https://jgthms.com">Jeremy Thomas</a>. The source code is licensed
+      <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+      is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+    </p>
+  </div>
+</footer>
+  </div>
 </template>
 
 <script>
@@ -194,4 +206,13 @@ export default {
 </script>
 
 <style>
+#footer {
+            position: fixed;
+            padding: 10px 10px 0px 10px;
+            bottom: 0;
+            width: 100%;
+            /* Height of the footer*/ 
+            height: 40px;
+            background: grey;
+        }
 </style>

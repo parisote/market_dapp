@@ -37,10 +37,12 @@
 </template>
 
 <script>
-import Card from "@/components/Card3.vue";
+import Card from "@/components/Card2.vue";
 import { useStore } from "../store/store.js";
 import { storeToRefs } from "pinia";
 import { ethers } from "ethers";
+
+const path = import.meta.env.VITE_IMAGE_PATH
 
 export default {
   name: "Layout",
@@ -64,7 +66,6 @@ export default {
   },
   async created() {    
     const result = await this.contract.getPlacesByCategory(this.$route.params.index);
-
     for (let i = 0; i < result.length; i++) {
       this.items.push({
         id: result[i].id,
@@ -73,7 +74,7 @@ export default {
         title: result[i].title,
         price: ethers.utils.formatEther(result[i].price, "ethers"),
         puntaje: 9,
-        image: result[i].image,
+        image: path + result[i].image,
         descripcion: result[i].description,
         cantDisponible: result[i].size
       });
