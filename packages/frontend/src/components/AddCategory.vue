@@ -66,7 +66,7 @@ export default {
     try{
       await this.contract.newCategory(this.category.nombre, this.category.description, this.preImage, { gasLimit: 3000000 });
     }catch(error){
-        let msg = error;
+        let msg = error.code;
         toast({
           message: msg,
           type: "is-danger",

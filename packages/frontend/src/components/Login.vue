@@ -75,7 +75,7 @@ export default {
       try{
         await this.contract.linkedPerson(this.user.nombre, this.user.apellido, this.user.email, this.preImage, { gasLimit: 3000000 })
       } catch(error){
-        let msg = error;
+        let msg = error.code;
         toast({
           message: msg,
           type: "is-danger",

@@ -32,7 +32,7 @@ export const useStore = defineStore('main', {
                 this.intializeCategories(); 
             });
             contract.on("NewRentEvent", (user, category, index, name, description)=>{this.messageSuccess("Se rento correctamente " + name)});
-            contract.on("NewPersonEvent", (direction,last_name,first_name,email)=>{this.messageSuccess("Se rento correctamente " + last_name)});
+            contract.on("NewPersonEvent", (direction,last_name,first_name,email,image)=>{this.messageSuccess("Se rento correctamente " + last_name)});
             this.contract = contract;
         },
         async initializeOwner(){
@@ -90,7 +90,10 @@ export const useStore = defineStore('main', {
               }) 
         },
         setPerson(value){
-            this.person = value
+            this.person.first_name = value.first_name
+            this.person.last_name = value.last_name
+            this.person.email = value.email
+            this.person.image = 'https://upcdn.io/' + value.image
         },
         setProvider(provider){
             console.log(provider.on('accountsChanged', () => {this.connectWallet()}))
