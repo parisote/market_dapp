@@ -3,15 +3,19 @@
     <div class="container" id="container">
       <div class="row">
         <div class="col-12" style="text-align: center; margin-top: 0.5em">
-          <h1>Nuestros mejores lugares</h1>
+          <h1 class="title">Nuestros mejores lugares</h1>
         </div>
       </div>
     </div>
-    <div class="row" style="margin-left: 10px display: flex; justify-content: center;">
+    <div
+      class="row"
+      style="margin-left: 10px display: flex; justify-content: center; margin-top:16px"
+    >
       <Categoria
-        v-for="item in items"
-        :key="item.id"
-        :title="item.title"
+        v-for="item in this.categories"
+        :key="item.index"
+        :id="item.index"
+        :title="item.name"
         :description="item.description"
         :image="item.image"
       />
@@ -23,31 +27,25 @@
 // @ is an alias to /src
 
 import Categoria from "@/components/Categoria.vue";
+import { useStore } from "../store/store.js";
+import { storeToRefs } from "pinia";
 
 export default {
   name: "home",
   components: {
     Categoria,
   },
-  data() {
+  setup() {
+    const store = useStore();
+    const { categories } = storeToRefs(store);
+    const { intializeCategories } = store;
     return {
-      items: [
-        {
-          id: 0,
-          title: "Cocheras",
-          description: "Reserve una cochera en alguno de nuestros complejos",
-          image:
-            "https://www.infobae.com/new-resizer/ND9m5UFOSJ_YX7Hemnahr4jNnMg=/992x558/filters:format(webp):quality(85)/cloudfront-us-east-1.images.arcpublishing.com/infobae/QQ6QUG64AFE7RAIQQBDH3IEK3U.jpg",
-        },
-        {
-          id: 1,
-          title: "Escritorios Flex",
-          description: "Reserve un escritorio o puesto de trabajo flexible",
-          image:
-            "https://cloudfront-us-east-1.images.arcpublishing.com/infobae/JFLB5IDXNFFF5AYDTZGDWMJHLA.jpg",
-        }
-      ],
+      categories,
+      intializeCategories,
     };
+  },
+  async created() {
+    this.intializeCategories();
   },
 };
 </script>

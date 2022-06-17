@@ -3,13 +3,13 @@
     <div class="container" id="container">
       <div class="row">
         <div class="col-12" style="text-align: center; margin-top: 0.5em">
-          <h1>Agregar nueva locacion</h1>
+          <h1 class="title">Agregar nueva locacion</h1>
         </div>
       </div>
     </div>
     <form @submit.prevent="onSubmit">
       <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label" >Nombre</label>
+        <label for="exampleInputEmail1" class="form-label">Nombre</label>
         <input class="form-control" type="text" v-model="location.nombre" />
       </div>
       <div class="mb-3">
@@ -34,15 +34,14 @@
       <div class="mb-3">
         <label for="disabledSelect" class="form-label">Categoría</label>
         <select id="disabledSelect" class="form-select" v-model="location.category">
-          <option>Cochera</option>
-          <option>Escritorios Flex</option>
+          <option v-for="item in this.categories" :value="item.index">{{ item.name }}</option>
         </select>
       </div>
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label" >Imagen</label>
-        <input class="form-control" type="text" v-model="location.image" />
+        <input class="form-control" type="file" @change="uploadFile" />
       </div>
-      <button class="btn btn-primary" v-on:click="createLocation"> Enviar</button>
+      <button id="btnSend" class="btn btn-primary" v-on:click="createLocation" :disabled="this.preImage === ''">Enviar</button>
     </form>
   </div>
 </template>
@@ -51,16 +50,30 @@
 import { useStore } from '../store/store.js';
 import { storeToRefs } from 'pinia';
 import { ethers } from "ethers";
+import { toast } from 'bulma-toast'
+import { Upload } from "upload-js"
+
+let upload = new Upload({apiKey: import.meta.env.VITE_PUBLIC_IMAGE})
+let uploadFile = upload.createFileInputHandler({
+  onUploaded: ({ fileUrl, fileId }) => {
+    const s = useStore()
+    const { setPreImage } = s; 
+    const p = fileUrl.split('/')[3]
+    setPreImage(p)
+  }
+});
 
 export default {
   name: "AddLocation",
   setup() {
     const store = useStore();
-    const { contract } = storeToRefs(store);
+    const { contract, categories, preImage } = storeToRefs(store);
     const { setContract } = store;    
     return {
       store,
       contract,
+      categories,
+      preImage,
       setContract
     };
   },
@@ -73,15 +86,22 @@ export default {
   },
   methods:{
     async createLocation(){
-    let category_id = '';
-    if(this.location.category === "Escritorios Flex")
-      category_id = 0
-    else 
-      category_id = 1;
-
-    console.log(this.contract)
-    await this.contract.newPlace(category_id,ethers.utils.parseEther("0."+this.location.precio),this.location.size,this.location.nombre,this.location.descripcion,this.location.image, { gasLimit: 3000000, value: ethers.utils.parseEther("0.0001") });
-  }
+    try{
+      console.log()
+      await this.contract.newPlace(this.location.category,ethers.utils.parseEther("0."+this.location.precio),this.location.size,this.location.nombre,this.location.descripcion,this.preImage, { gasLimit: 3000000, value: ethers.utils.parseEther("0.0001") });
+    } catch(error){
+        let msg = error;
+        toast({
+          message: msg,
+          type: "is-danger",
+          dismissible: true,
+          pauseOnHover: true,
+          duration: 2000,
+          position: "bottom-right"
+        })
+      }
+    },
+    uploadFile
   }
 }; 
 </script>

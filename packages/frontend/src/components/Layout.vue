@@ -3,11 +3,11 @@
     <div class="container" id="container">
       <div class="row">
         <div class="col-12" style="text-align: center; margin-top: 0.5em">
-          <h1>{{ $route.params.Categoria }}</h1>
+          <h1 class="title">{{ $route.params.Categoria }}</h1>
         </div>
       </div>
     </div>
-    <div class="container-fluid row">
+    <div class="container-fluid row" style="margin-top:16px">
         <Card
           v-for="item in items"
           :key="item.id"
@@ -37,10 +37,12 @@
 </template>
 
 <script>
-import Card from "@/components/Card3.vue";
+import Card from "@/components/Card2.vue";
 import { useStore } from "../store/store.js";
 import { storeToRefs } from "pinia";
 import { ethers } from "ethers";
+
+const path = import.meta.env.VITE_IMAGE_PATH
 
 export default {
   name: "Layout",
@@ -62,15 +64,8 @@ export default {
   data() {
     return { items: [] };
   },
-  async created() {
-    let category = "";
-    if (this.$route.params.Categoria === "Cocheras")
-      category = 1;
-    else
-      category = 0;
-    
-    const result = await this.contract.getPlacesByCategory(category);
-
+  async created() {    
+    const result = await this.contract.getPlacesByCategory(this.$route.params.index);
     for (let i = 0; i < result.length; i++) {
       this.items.push({
         id: result[i].id,
@@ -79,7 +74,7 @@ export default {
         title: result[i].title,
         price: ethers.utils.formatEther(result[i].price, "ethers"),
         puntaje: 9,
-        image: result[i].image,
+        image: path + result[i].image,
         descripcion: result[i].description,
         cantDisponible: result[i].size
       });

@@ -1,166 +1,226 @@
 <template>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-<div class="container">
-  <router-link class="navbar-brand" to="/">ReservApp</router-link>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <router-link class="nav-link active" aria-current="page" to="/">Inicio</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link class="nav-link active" aria-current="page" to="/About">About</router-link>
-        </li>
-         <li class="nav-item" v-if="(this.address !== '')">
-          <router-link class="nav-link active" aria-current="page" to="/AddLocation">Agregar Locación</router-link>
-        </li>
-      </ul>
-      <ul class="nav navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link disabled">{{this.address}}</a>
-        </li>
-         <li>
-          <div class="btn-nav me-2" v-if="(this.address !== '')&&(!this.exists)">
-            <router-link class="nav-link active" aria-current="page" to="/Login">Vincular usuario</router-link>
-          </div>          
-        </li>
-         <li>
-          <div class="btn-nav me-2" v-if="(this.address !== '')&&(this.exists)">
-            <router-link class="nav-link active" aria-current="page" to="/MyRents">Usuario</router-link>
-          </div>          
-        </li>
-        <li>          
-          <div class="btn-nav me-2" v-if="this.address == ''" ><button type="button" class="btn btn-primary" @click="connectWallet">Conectar wallet</button></div>          
-        </li>
-      </ul>
+<div id="wrapper">
+  <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <router-link class="navbar-item" to="/">ReservApp</router-link>
+      <a
+        role="button"
+        class="navbar-burger"
+        aria-label="menu"
+        aria-expanded="false"
+        data-target="navbarBasicExample"
+      >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
     </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" :href="about">About us</a>
+
+        <router-link
+          class="navbar-item"
+          aria-current="page"
+          to="/AddLocation"
+          v-if="this.address !== ''"
+          >Agregar Locación</router-link
+        >
+
+        <router-link
+          class="navbar-item"
+          aria-current="page"
+          to="/AddCategory"
+          v-if="this.address !== '' && this.isOwner"
+          >Agregar Categoria</router-link
+        >
+      </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <a class="nav-link disabled">{{ this.address }}</a>
+          <div class="buttons" v-if="this.address == '' && this.hasMeta">
+            <button
+              type="button"
+              class="button is-primary"
+              @click="connectWallet"
+            >
+              Conectar Wallet
+            </button>
+          </div>
+        </div>
+
+        <div class="navbar-item">
+          <div class="buttons" v-if="!this.hasMeta">
+            <button
+              type="button"
+              class="button is-primary"
+              @click="installMeta"
+            >
+              Instalar Metamask
+            </button>
+          </div>
+        </div>
+
+        <div
+          class="navbar-item has-dropdown is-hoverable"
+          v-if="this.address !== ''"
+        >
+          <a class="navbar-link"> Usuarioooo </a>
+          <div class="navbar-dropdown">
+            <router-link class="navbar-item" to="/MyRents">
+              Mis reservas
+            </router-link>
+            <router-link class="navbar-item" to="/MyPlaces">
+              Mis lugares
+            </router-link>
+            <router-link
+              v-if="Object.keys(this.person).length === 0"
+              class="navbar-item"
+              to="/Login">
+              Vincular usuario              
+            </router-link>
+            <router-link
+              v-if="Object.keys(this.person).length !== 0"
+              class="navbar-item"
+              to="/MyProfile">
+              Mi perfil              
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="section">
+  <router-view></router-view>
   </div>
-</nav>
-<router-view></router-view>
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      <strong>Bulma</strong> by <a href="https://jgthms.com">Jeremy Thomas</a>. The source code is licensed
+      <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+      is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+    </p>
+  </div>
+</footer>
+  </div>
 </template>
 
 <script>
-import { useStore } from './store/store.js';
-import { storeToRefs } from 'pinia';
+import { useStore } from "./store/store.js";
+import { storeToRefs } from "pinia";
 import abi from "../contract/abi.json";
 import { ethers } from "ethers";
+import { toast } from "bulma-toast";
+
 const contractAddress = import.meta.env.VITE_API_CONTRACT;
 
 export default {
   setup() {
     const store = useStore();
-    const { address, contract } = storeToRefs(store);
-    const { addAddress, setContract } = store;    
+    const { hasMeta, address, contract, isOwner, person } = storeToRefs(store);
+    const {
+      addAddress,
+      setContract,
+      initializeOwner,
+      setMeta,
+      setPerson,
+      setProvider,
+    } = store;
     return {
       store,
+      hasMeta,
       address,
       contract,
+      isOwner,
+      person,
+      setMeta,
       addAddress,
-      setContract
+      setContract,
+      initializeOwner,
+      setPerson,
+      setProvider,
     };
-  }, data() {
+  },
+  data() {
     return {
-     exists:false ,
+      exists: false,
     };
+  },
+    computed: {
+    about() {
+      return "#/About/"
+    }
   },
   methods: {
     async connectWallet() {
-      if (typeof window.ethereum !== 'undefined') {
-        console.log('MetaMask is installed!');
-        const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-        const account = accounts[0];
+      if (typeof window.ethereum !== "undefined") {
+        const accounts = await ethereum.request({
+          method: "eth_requestAccounts",
+        });
+        let account = "";
+        if (accounts.length > 0) account = accounts[0];
         this.addAddress(account);
-
-        const contractAbi = abi.abi;
-        let provider = "";
-        if(!import.meta.env.VITE_API_LOCALHOST)
-            provider = new ethers.providers.Web3Provider(ethereum);
-          else
-            provider = new ethers.providers.JsonRpcProvider();
-
-        const signer = provider.getSigner();
-        this.setContract(new ethers.Contract(contractAddress, contractAbi, signer));
-      } else {
-        console.log("Install metamask")
+        this.initializeOwner();
       }
+    },
+    toLogin() {
+      this.$router.push("/Login");
+    },
+    installMeta() {
+      window.location.href = "https://metamask.io/";
     },
   },
   async mounted() {
-      if(localStorage.getItem('address')){
-        await this.connectWallet()
+    if (localStorage.getItem("address")) {
+      await this.connectWallet();
+      const Person = await this.contract.getPersonByAddress();
 
-        const Person = await this.contract.getPersonByAddress()
-        if (Person.last_name !== ''&&Person.first_name!==''&&Person.email!=='') {
-          this.exists = true;
-        }        
-      }
-  }
+      if (Person.last_name !== '' && Person.first_name !== '' && Person.email !== '')
+        this.setPerson(Person);
+      
+      
+      this.initializeOwner();
+    }
+  },
+  created() {
+    const contractAbi = abi.abi;
+    let provider = "";
+
+    if (typeof window.ethereum !== "undefined") {
+      this.setMeta(true);
+
+      provider = new ethers.providers.Web3Provider(ethereum);
+      this.setProvider(provider["provider"]);
+      const signer = provider.getSigner();
+      this.setContract(
+        new ethers.Contract(contractAddress, contractAbi, signer)
+      );
+
+    } else {
+      this.setMeta(false);
+      toast({
+        message: "Debe instalar metamask",
+        type: "is-warning",
+        dismissible: true,
+        pauseOnHover: true,
+        duration: 2000,
+        position: "bottom-right",
+      });
+    }
+  },
 };
 </script>
 
 <style>
-/*
-
-@import './assets/base.css';
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-
-  font-weight: normal;
-}
-
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-}
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
-
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
-
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-}
-*/
+#footer {
+            position: fixed;
+            padding: 10px 10px 0px 10px;
+            bottom: 0;
+            width: 100%;
+            /* Height of the footer*/ 
+            height: 40px;
+            background: grey;
+        }
 </style>

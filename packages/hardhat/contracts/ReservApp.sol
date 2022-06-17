@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
-import "@openzeppelin/contracts/access/Ownable.sol";
 
 interface IReservaNFT {
     function mintNFT(address owner) external returns(uint256);
@@ -9,16 +8,25 @@ interface IReservaNFT {
 error NewPlaceError();
 error RentError();
 
-contract ReservApp is Ownable{
+contract ReservApp{
     uint256 private _id;
-    uint256[6][] private test;
-    enum Category { Oficina, Garage }
-    mapping(Category => Place[]) private _places;
+    uint8 private _id_category;
+    bool private _lock = false;
+    Category[] private _category;
+    address private _owner;
+    mapping(uint8 => Place[]) private _places;
     mapping(address => PlaceRent[]) private _rent;
-    mapping(address => uint256[]) private _bankPlace;
+    mapping(address => uint256) private _bank;
     mapping(address => Person) private _persons;
 
     IReservaNFT private nft_address;
+
+    struct Category{
+        uint8 index;
+        string name;
+        string description;
+        string image;
+    }
 
     struct Place{
         uint256 id;
@@ -26,14 +34,14 @@ contract ReservApp is Ownable{
         address owner;
         uint256 size;
         uint256 price;
-        Category category;
+        uint8 category;
         string title;
         string description;        
         string image;
     }
 
     struct PlaceRent{
-        Category category;
+        uint8 category;
         string title;
         string description;
     }
@@ -49,7 +57,7 @@ contract ReservApp is Ownable{
         uint256 indexed index,
         uint256 size, 
         uint256 price, 
-        Category category, 
+        uint8 category, 
         string title, 
         string description, 
         string image
@@ -57,7 +65,7 @@ contract ReservApp is Ownable{
         
     event NewRentEvent(
         address indexed user, 
-        Category category, 
+        uint8 category, 
         uint256 indexed index, 
         string name, 
         string description
@@ -70,16 +78,44 @@ contract ReservApp is Ownable{
         string email
     );
 
+    event NewCategoryEvent(
+        uint8 indexed index, 
+        string name,
+        string description, 
+        string image
+    );    
+
     modifier checkValue(){
         require(msg.value == 0.0001 ether, "Value is not 0.0001 ether");
         _;
     }
 
-    constructor(address _nft){
-        nft_address = IReservaNFT(address(_nft));
+    modifier onlyOwner(){
+        require(_owner == msg.sender, 'You arent owner');
+        _;
     }
 
-    function getPlacesByCategory(Category category) public view returns(Place[] memory){
+    modifier checkLock(){
+        require(!_lock);
+        _lock = true;
+        _;
+        _lock = false;
+    }
+
+    constructor(address _nft){
+        _owner = msg.sender;
+        nft_address = IReservaNFT(address(_nft));        
+    }
+
+    function isOwner() public view returns(bool){
+        return _owner == msg.sender;
+    }
+
+    function getCategories() public view returns(Category[] memory){
+        return _category;
+    }
+
+    function getPlacesByCategory(uint8 category) public view returns(Place[] memory){
         return _places[category];
     }
 
@@ -87,7 +123,7 @@ contract ReservApp is Ownable{
         return _rent[msg.sender];
     }
 
-    function getPlaceById(Category category, uint256 index) public view returns(Place memory){
+    function getPlaceById(uint8 category, uint256 index) public view returns(Place memory){
         return _places[category][index];
     }
 
@@ -96,15 +132,14 @@ contract ReservApp is Ownable{
         emit NewPersonEvent(msg.sender, first_name, last_name, email);
     }
 
-    function newPlace(Category category, uint256 price, uint256 size, string memory title, string memory description, string memory image) public payable checkValue(){
-        _bankPlace[msg.sender].push(msg.value);
+    function newPlace(uint8 category, uint256 price, uint256 size, string memory title, string memory description, string memory image) public payable checkValue(){
         uint256 index = _places[category].length;
         _places[category].push(Place(_id, index, msg.sender, size, price, category, title, description, image));
         _id++;
         emit NewPlaceEvent(_id, index, size, price, category, title, description, image);
     }
 
-    function rentPlace(Category category, uint index) public payable {
+    function rentPlace(uint8 category, uint index) public payable {
         Place storage p = _places[category][index];
         require(p.size > 0, "Place complete");
         require(p.price == msg.value, "Price is distinct");
@@ -116,7 +151,7 @@ contract ReservApp is Ownable{
         _rent[msg.sender].push(PlaceRent(category,p.title,p.description));
         nft_address.mintNFT(msg.sender);
 
-        to.transfer(msg.value);
+        _bank[to] += msg.value;
         
         emit NewRentEvent(msg.sender, category, index, p.title, p.description);
     }
@@ -125,5 +160,29 @@ contract ReservApp is Ownable{
         return _persons[msg.sender];
     }
 
-    fallback() external payable{ }    
+    function newCategory(string memory category, string memory description, string memory image) public onlyOwner{
+        _category.push(Category(_id_category, category, description, image));
+        _id_category++;
+        emit NewCategoryEvent(_id_category, category, description, image);
+    }
+
+    function withdraw() external payable checkLock returns(bool){
+        require(_bank[msg.sender] > 0, "Balance is 0");
+        uint256 balance = _bank[msg.sender];
+        _bank[msg.sender] = 0;
+        (bool result,) = payable(msg.sender).call{value:balance}("");
+        require(result, "Transfer is not completed");
+        return result;
+    }
+
+    function getBalance() public view returns(uint256){
+        return _bank[msg.sender];
+    }
+
+    function destroy() public onlyOwner{
+        selfdestruct(payable(_owner));
+    }
+
+    fallback() external payable{ }
+    receive() external payable { }
 }
