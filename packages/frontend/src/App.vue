@@ -76,10 +76,16 @@
               Mis lugares
             </router-link>
             <router-link
-              v-if="this.person.first_name == ''"
+              v-if="Object.keys(this.person).length === 0"
               class="navbar-item"
               to="/Login">
-              Vincular usuario
+              Vincular usuario              
+            </router-link>
+            <router-link
+              v-if="Object.keys(this.person).length !== 0"
+              class="navbar-item"
+              to="/MyProfile">
+              Mi perfil              
             </router-link>
           </div>
         </div>
@@ -169,16 +175,12 @@ export default {
   async mounted() {
     if (localStorage.getItem("address")) {
       await this.connectWallet();
-
       const Person = await this.contract.getPersonByAddress();
-      if (
-        Person.last_name !== "" &&
-        Person.first_name !== "" &&
-        Person.email !== ""
-      ) {
-        this.setPerson(Person);
-      }
 
+      if (Person.last_name !== '' && Person.first_name !== '' && Person.email !== '')
+        this.setPerson(Person);
+      
+      
       this.initializeOwner();
     }
   },
@@ -195,6 +197,7 @@ export default {
       this.setContract(
         new ethers.Contract(contractAddress, contractAbi, signer)
       );
+
     } else {
       this.setMeta(false);
       toast({

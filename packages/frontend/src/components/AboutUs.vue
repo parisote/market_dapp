@@ -22,7 +22,7 @@
         </center>
     </div>
     <section>
-        <h1>Red ETHERIUM</h1>
+        <h1 class="h1_about">Red ETHERIUM</h1>
         <div class="content">
             <p>El proyecto corre sobre la RED ETHEREUM permitiendo a los usuarios utilizar billeteras virtuales</p><a href="">Learn more</a>
         </div>
@@ -30,7 +30,7 @@
             <img src="https://previews.123rf.com/images/rastudio/rastudio1712/rastudio171200888/92046169-s%C3%ADmbolo-de-ethereum-en-fondo-futurista-del-pol%C3%ADgono-del-hud-con-el-mapa-del-mundo-y-la-red-par-a-cua.jpg"/></div>    
     </section>
     <section>
-        <h1>VUE JS</h1>
+        <h1 class="h1_about">VUE JS</h1>
         <div class="content">
             <p>Utilizamos toda la programcion con VUE JS, junto con codigo javascript y las rutas correspondientes</p><a href="">Learn more</a>
         </div>
@@ -173,15 +173,8 @@ ul#bottomnav li {
   }
 }
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,400i,700");
-html {
-  font-family: Montserrat, sans-serif;
-  font-size: 15px;
-  background-color: white;
-}
-body {
-  padding: 1em;
-}
-h1 {
+
+.h1_about {
   font-size: 4em;
   margin: 0 0 1rem;
   font-family: serif;
