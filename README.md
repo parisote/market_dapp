@@ -32,7 +32,7 @@ npx hardhat node
 cd packages
 cd hardhat
 npx hardhat test
-npx hardhat run ./scripts/deploy.js --network localhost
+npx hardhat run ./scripts/deploy-localhost.js --network localhost
 ```
 Copiar address de contrato de Market al .env de la carpeta del front y cambiar abi
 
