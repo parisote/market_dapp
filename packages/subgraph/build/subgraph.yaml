@@ -1,0 +1,37 @@
+specVersion: 0.0.4
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum
+    name: ReservApp
+    network: goerli
+    source:
+      address: "0x43484005E6a39C941e2e8aEC2EDCDe6aE89d3306"
+      abi: ReservApp
+      startBlock: 7047019
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - NewCategoryEvent
+        - NewPersonEvent
+        - NewPlaceEvent
+        - NewRentEvent
+        - OwnershipTransferred
+      abis:
+        - name: ReservApp
+          file: ReservApp\abis\ReservApp.json
+      eventHandlers:
+        - event: NewCategoryEvent(indexed uint8,string,string,string)
+          handler: handleNewCategoryEvent
+        - event: NewPersonEvent(indexed address,string,string,string)
+          handler: handleNewPersonEvent
+        - event: NewPlaceEvent(indexed uint256,indexed
+            uint256,uint256,uint256,uint8,string,string,string)
+          handler: handleNewPlaceEvent
+        - event: NewRentEvent(indexed address,uint8,indexed uint256,string,string)
+          handler: handleNewRentEvent
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+      file: ReservApp\ReservApp.wasm

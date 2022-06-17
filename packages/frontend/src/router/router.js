@@ -33,6 +33,7 @@ router.beforeEach(async (to, from) => {
   if((to.name == "AddCategory") && (localStorage.getItem("isOwner") === 'false')){
     return { name: 'Home' }
   }
+  
   if (to.meta.requiresAuth && !localStorage.getItem("address")) {
     return { name: 'Home' }
   }

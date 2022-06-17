@@ -16,8 +16,12 @@
                 <div class="row mt-3">
                     <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" placeholder="" v-model="this.person.email"></div>
                     <div class="col-md-12"><label class="labels">Account Number</label><input type="text" class="form-control" placeholder="enter address line 1" v-model="this.address"></div>
+
+                    <div class="col-md-12"><label class="labels">Account Number</label><input type="text" class="form-control" placeholder="enter address line 1" v-model="this.value"></div>
                 </div>
-                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Retirar dinero</button></div>
+                <div class="mt-5 text-center">
+                    <button class="btn btn-primary profile-button" type="button" @click="withdraw">Retirar dinero</button>
+                </div>
             </div>
         </div>
         <div class="col-md-4">
@@ -30,18 +34,30 @@
 import { useStore } from '../store/store.js';
 import { storeToRefs } from 'pinia';
 import { ethers } from "ethers";
-import { toast } from 'bulma-toast'
-import { Upload } from "upload-js"
 
 export default {
   setup() {
     const store = useStore();
-    const { address, person } = storeToRefs(store);
+    const { address, person, contract } = storeToRefs(store);
     return {
       store,
       address,
+      contract,
       person
     };
+  },
+  data() {
+    return {value:0};
+  },
+  async created(){
+    const amount = await this.contract.getBalance();
+    this.value = ethers.utils.formatEther(amount)
+  },
+  methods:{
+    async withdraw(){
+        const d = await this.contract.withdraw();
+        console.log(d)
+    }
   }
 }
 </script>

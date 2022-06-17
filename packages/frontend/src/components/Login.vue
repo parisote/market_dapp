@@ -24,7 +24,11 @@
         <label for="exampleFormControlInput1" class="form-label">Email address</label>
         <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" v-model="user.email" />
       </div>
-       <button type="submit" class="btn btn-primary" @click="linkedPerson">Login</button>
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Imagen</label>
+        <input type="file" class="form-control" @change="uploadFile"/>
+      </div>
+       <button type="submit" class="btn btn-primary" @click="linkedPerson" :disabled="this.preImage === ''">Login</button>
     </form>
   </div>
 </template>  
@@ -34,29 +38,42 @@
 import { useStore } from '../store/store.js';
 import { storeToRefs } from 'pinia';
 import { toast } from 'bulma-toast'
+import { Upload } from "upload-js"
+
+let upload = new Upload({apiKey: import.meta.env.VITE_PUBLIC_IMAGE})
+let uploadFile = upload.createFileInputHandler({
+  onUploaded: ({ fileUrl, fileId }) => {
+    const s = useStore()
+    const { setPreImage } = s; 
+    const p = fileUrl.split('/')[3]
+    setPreImage(p)
+  }
+});
+
 export default {
      name: "Login",
   setup() {
     const store = useStore();
-    const { contract } = storeToRefs(store);
+    const { contract, preImage, up } = storeToRefs(store);
     const { setContract,  } = store;    
     return {
       store,
       contract,
+      preImage,
       setContract
     };
   },
   data() {
     return {
      lista: [],
-     user: { nombre:"",apellido:"",email:"" },
+     user: { nombre:"",apellido:"",email:"",image:"" },
      mensajeError: "", 
     };
   },
   methods:{
     async linkedPerson(){
       try{
-        await this.contract.linkedPerson(this.user.nombre, this.user.apellido, this.user.email, { gasLimit: 3000000 })
+        await this.contract.linkedPerson(this.user.nombre, this.user.apellido, this.user.email, this.preImage, { gasLimit: 3000000 })
       } catch(error){
         let msg = error;
         toast({
@@ -68,7 +85,8 @@ export default {
           position: "bottom-right"
         })
       }
-    }
+    }, 
+    uploadFile
   }
   };
 </script>

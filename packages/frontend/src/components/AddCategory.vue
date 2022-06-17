@@ -37,7 +37,6 @@ let uploadFile = upload.createFileInputHandler({
     const s = useStore()
     const { setPreImage } = s; 
     const p = fileUrl.split('/')[3]
-    console.log(p)
     setPreImage(p)
   }
 });

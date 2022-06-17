@@ -50,6 +50,7 @@ contract ReservApp{
         string first_name;
         string last_name;
         string email;
+        string image;
     }
         
     event NewPlaceEvent(
@@ -75,7 +76,8 @@ contract ReservApp{
         address indexed direction,
         string last_name,
         string first_name,
-        string email
+        string email,
+        string image
     );
 
     event NewCategoryEvent(
@@ -127,9 +129,9 @@ contract ReservApp{
         return _places[category][index];
     }
 
-    function linkedPerson(string memory first_name, string memory last_name, string memory email) public{
-        _persons[msg.sender] = Person(first_name, last_name, email);
-        emit NewPersonEvent(msg.sender, first_name, last_name, email);
+    function linkedPerson(string memory first_name, string memory last_name, string memory email, string memory image) public{
+        _persons[msg.sender] = Person(first_name, last_name, email, image);
+        emit NewPersonEvent(msg.sender, first_name, last_name, email, image);
     }
 
     function newPlace(uint8 category, uint256 price, uint256 size, string memory title, string memory description, string memory image) public payable checkValue(){
@@ -149,7 +151,7 @@ contract ReservApp{
 
         address payable to = payable(p.owner);
         _rent[msg.sender].push(PlaceRent(category,p.title,p.description));
-        nft_address.mintNFT(msg.sender);
+        //nft_address.mintNFT(msg.sender);
 
         _bank[to] += msg.value;
         

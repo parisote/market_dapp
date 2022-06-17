@@ -1,0 +1,35 @@
+type NewPlaceEvent @entity {
+  id: ID!
+  index: BigInt!
+  size: BigInt!
+  price: BigInt!
+  category: Int! 
+  title: String!
+  description: String!
+  image: String!
+}
+
+type NewRentEvent @entity {
+  id: ID!
+  user: Bytes!
+  index: BigInt!
+  category: Int!
+  name: String!
+  description: String!
+}
+
+type NewPersonEvent @entity {
+  id: ID!
+  direction: Bytes!
+  last_name: String!
+  first_name: String!
+  email: String!
+}
+
+type NewCategoryEvent @entity {
+  id: ID!
+  index: BigInt!
+  name: String!
+  description: String!
+  image: String!
+}

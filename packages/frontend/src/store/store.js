@@ -32,6 +32,7 @@ export const useStore = defineStore('main', {
                 this.intializeCategories(); 
             });
             contract.on("NewRentEvent", (user, category, index, name, description)=>{this.messageSuccess("Se rento correctamente " + name)});
+            contract.on("NewPersonEvent", (direction,last_name,first_name,email)=>{this.messageSuccess("Se rento correctamente " + last_name)});
             this.contract = contract;
         },
         async initializeOwner(){

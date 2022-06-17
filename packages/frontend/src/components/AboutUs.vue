@@ -184,7 +184,6 @@ h1::after {
   content: '';
   position: absolute;
   width: 6rem;
-  /* background-color: rgb(247, 243, 243); */
   height: 2px;
   top: 0;
   left: 0;
@@ -243,6 +242,5 @@ img {
   color: #fff;
   padding: 0.5em 1em;
 }
-
 
 </style>
