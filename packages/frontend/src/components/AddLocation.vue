@@ -19,7 +19,7 @@
       <label class="form-label">Precio</label>
       <div class="input-group mb-3" >
         <span class="input-group-text">ETH</span>
-        <span class="input-group-text">0.00</span>
+        <span class="input-group-text">0.</span>
         <input
           type="text"
           class="form-control"
@@ -79,17 +79,9 @@ export default {
     else 
       category_id = 1;
 
-    console.log(await this.contract.newPlace(category_id,this.location.precio,this.location.size,this.location.nombre,this.location.descripcion,this.location.image, { gasLimit: 3000000, value: ethers.utils.parseEther("0.0001") }));
-    }
-  },
-  created: async function () {
-    try {
-      const rta = await this.contract.getCategory()
-      this.lista = rta.data;
-    } catch (error) {
-      this.mensajeError = "No se pudo obtener los datos ";
-      console.log(error.error);
-    }
-  } 
+    console.log(this.contract)
+    await this.contract.newPlace(category_id,ethers.utils.parseEther("0."+this.location.precio),this.location.size,this.location.nombre,this.location.descripcion,this.location.image, { gasLimit: 3000000, value: ethers.utils.parseEther("0.0001") });
+  }
+  }
 }; 
 </script>

@@ -7,7 +7,7 @@
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row" style="margin-left: 10px display: flex; justify-content: center;">
       <Categoria
         v-for="item in items"
         :key="item.id"
@@ -45,7 +45,7 @@ export default {
           description: "Reserve un escritorio o puesto de trabajo flexible",
           image:
             "https://cloudfront-us-east-1.images.arcpublishing.com/infobae/JFLB5IDXNFFF5AYDTZGDWMJHLA.jpg",
-        },
+        }
       ],
     };
   },

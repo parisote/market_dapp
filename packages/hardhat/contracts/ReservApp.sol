@@ -87,6 +87,10 @@ contract ReservApp is Ownable{
         return _rent[msg.sender];
     }
 
+    function getPlaceById(Category category, uint256 index) public view returns(Place memory){
+        return _places[category][index];
+    }
+
     function linkedPerson(string memory first_name, string memory last_name, string memory email) public{
         _persons[msg.sender] = Person(first_name, last_name, email);
         emit NewPersonEvent(msg.sender, first_name, last_name, email);

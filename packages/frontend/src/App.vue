@@ -11,18 +11,25 @@
           <router-link class="nav-link active" aria-current="page" to="/">Inicio</router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link active" aria-current="page" to="/MyProduct">Mis Reservas</router-link>
+          <router-link class="nav-link active" aria-current="page" to="/About">About</router-link>
         </li>
-         <li class="nav-item">
+         <li class="nav-item" v-if="(this.address !== '')">
           <router-link class="nav-link active" aria-current="page" to="/AddLocation">Agregar Locación</router-link>
         </li>
-        <li>
-          <div class="btn-nav me-2" v-if="(this.address !== '')&&(this.exists==false)"><router-link class="nav-link active" aria-current="page" to="/Login">Login</router-link></div>          
-        </li>  
       </ul>
       <ul class="nav navbar-nav ml-auto">
         <li class="nav-item">
           <a class="nav-link disabled">{{this.address}}</a>
+        </li>
+         <li>
+          <div class="btn-nav me-2" v-if="(this.address !== '')&&(!this.exists)">
+            <router-link class="nav-link active" aria-current="page" to="/Login">Vincular usuario</router-link>
+          </div>          
+        </li>
+         <li>
+          <div class="btn-nav me-2" v-if="(this.address !== '')&&(this.exists)">
+            <router-link class="nav-link active" aria-current="page" to="/MyRents">Usuario</router-link>
+          </div>          
         </li>
         <li>          
           <div class="btn-nav me-2" v-if="this.address == ''" ><button type="button" class="btn btn-primary" @click="connectWallet">Conectar wallet</button></div>          
@@ -55,7 +62,7 @@ export default {
     };
   }, data() {
     return {
-     exists: { exists:false },
+     exists:false ,
     };
   },
   methods: {
@@ -75,22 +82,21 @@ export default {
 
         const signer = provider.getSigner();
         this.setContract(new ethers.Contract(contractAddress, contractAbi, signer));
-
       } else {
         console.log("Install metamask")
       }
     },
   },
-  mounted() {
-//    if(localStorage.getItem('address'))
-      this.connectWallet()
-  },
-  async getPersonByAddress() {
-      const Person = await this.contract.getPersonByAddress(this.address)
-      if (Person.last_name !== ''&&Person.first_name!==''&&Person.email!=='') {
-        this.exists = true;
+  async mounted() {
+      if(localStorage.getItem('address')){
+        await this.connectWallet()
+
+        const Person = await this.contract.getPersonByAddress()
+        if (Person.last_name !== ''&&Person.first_name!==''&&Person.email!=='') {
+          this.exists = true;
+        }        
       }
-    }
+  }
 };
 </script>
 

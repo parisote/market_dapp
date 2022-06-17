@@ -1,6 +1,6 @@
 import {createRouter, createWebHashHistory} from 'vue-router'
 import Home from '../components/Home.vue'
-import MyProduct from '../components/MyProduct.vue'
+import MyRents from '../components/MyRents.vue'
 import Layout from '../components/Layout.vue'
 import AddLocation from '../components/AddLocation.vue'
 import LayoutPlace from '../components/LayoutPlace.vue'
@@ -11,10 +11,10 @@ import { createPinia } from 'pinia'
 
 const routes = [
     { path: '/', component: Home },
-    { path: '/MyProduct', component: MyProduct },
+    { path: '/MyRents', component: MyRents },
     { path: '/Layout/:Categoria', component: Layout },
     { path: '/AddLocation', component: AddLocation },
-    { path: '/LayoutPlace/:id/:category/:nombre/:zona/:price/:puntaje/:cantDisponible', component: LayoutPlace },
+    { path: '/LayoutPlace/:index/:category', component: LayoutPlace },
     { path: '/Login', component: Login}
 ]
 

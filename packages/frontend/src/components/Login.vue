@@ -7,7 +7,7 @@
         </div>
       </div>
     </div>
-    <form>
+    <form @submit.prevent="onSubmit">
         <div class="mb-3">
          <label class="col-sm-2 col-form-label">Nombre</label>
          <div class="col-sm-10">
@@ -33,7 +33,6 @@
 <script>
 import { useStore } from '../store/store.js';
 import { storeToRefs } from 'pinia';
-import { ethers } from "ethers";
 
 export default {
      name: "Login",
@@ -57,15 +56,6 @@ export default {
   methods:{
     async linkedPerson(){    
     console.log(await this.contract.linkedPerson(this.user.nombre, this.user.apellido, this.user.email) )}
-    },
-  created: async function () {
-    try {
-      const rta = await this.contract.getPersonByAddress(this.address)
-      this.lista = rta.data;
-    } catch (error) {
-      this.mensajeError = "No se pudo obtener los datos ";
-      console.log(error.error);
     }
-  } 
   };
 </script>

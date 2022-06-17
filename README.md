@@ -1,28 +1,21 @@
 # Proyecto ReservaDapp
 
-- Home
-- About
-- Crear Lugar
-- Lugares
-- FAQ
-
 ### Necesarios 
 Vue
-
-Metamask
+Metamask (Con conexion a Goerli y ETH de prueba)
 
 ### Instalar dependencias del front
 ```
 cd packages
 cd frontend
-npm i --only=production
+npm i
 ```
 
 ### Instalar dependencias de back
 ```
 cd packages
 cd hardhat
-npm i --only=production
+npm i
 ```
 
 ### Agregar ETH en Chainlink (faucets.chain.link/goerli)
@@ -38,6 +31,7 @@ npx hardhat node
 ```
 cd packages
 cd hardhat
+npx hardhat test
 npx hardhat run ./scripts/deploy.js --network localhost
 ```
 Copiar address de contrato de Market al .env de la carpeta del front y cambiar abi
@@ -48,6 +42,9 @@ cd packages
 cd frontend
 npm run dev
 ```
+
+### Indexacion de eventos en blockchain (Tesnet Goerli)
+Utilizamos [TheGrap](https://thegraph.com/en/) para hacer la indexacion de los eventos generados por los smart contract
 
 ## Authors
 
