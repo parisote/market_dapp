@@ -101,7 +101,6 @@ export const useStore = defineStore('main', {
                     description: item.description,
                     image: 'https://upcdn.io/' + item.image
                   });
-                console.log('https://upcdn.io/' + item.image)
              }
 
             } catch (error){
