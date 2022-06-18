@@ -33,3 +33,9 @@ type NewCategoryEvent @entity {
   description: String!
   image: String!
 }
+
+type NewWithdrawEvent @entity {
+  id: ID!
+  from: Bytes!
+  balance: BigInt!
+}

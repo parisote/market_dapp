@@ -6,7 +6,7 @@ import {
   NewRentEvent as NewRent,
   NewWithdrawEvent as NewWithdraw
 } from "../generated/ReservApp/ReservApp"
-import { NewPlaceEvent, NewRentEvent, NewPersonEvent, NewCategoryEvent } from '../generated/schema'
+import { NewPlaceEvent, NewRentEvent, NewPersonEvent, NewCategoryEvent, NewWithdrawEvent } from '../generated/schema'
  
 export function handleNewCategoryEvent(event: NewCategory): void {
   let newCategory = NewCategoryEvent.load(getIdFromEvents(event.params.index)+"0x8AaDe4bDd3aFF826C68fe5624E9bE84E5841BdbE");

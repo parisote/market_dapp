@@ -1,13 +1,13 @@
 {
-  "name": "Reservdapp",
+  "name": "Reservdapp2",
   "license": "UNLICENSED",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ parisote/Reservdapp",
-    "create-local": "graph create --node http://localhost:8020/ parisote/Reservdapp",
-    "remove-local": "graph remove --node http://localhost:8020/ parisote/Reservdapp",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 parisote/Reservdapp"
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ parisote/Reservdapp2",
+    "create-local": "graph create --node http://localhost:8020/ parisote/Reservdapp2",
+    "remove-local": "graph remove --node http://localhost:8020/ parisote/Reservdapp2",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 parisote/Reservdapp2"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.30.4",

@@ -92,7 +92,16 @@ export const useStore = defineStore('main', {
                 }`;
 
             const l = await apolloClient.query({ query: q })
-            this.categories = l.data.newCategoryEvents
+            this.categories = []//l.data.newCategoryEvents
+
+            for(const item of l.data.newCategoryEvents){
+                this.categories.push({
+                    index: item.index,
+                    name: item.category,
+                    description: item.title,
+                    image: 'https://upcdn.io/' + item.image
+                  });
+             }
 
             } catch (error){
                 console.log(error)

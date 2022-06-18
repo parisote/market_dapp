@@ -68,6 +68,10 @@ export class NewPersonEvent__Params {
   get email(): string {
     return this._event.parameters[3].value.toString();
   }
+
+  get image(): string {
+    return this._event.parameters[4].value.toString();
+  }
 }
 
 export class NewPlaceEvent extends ethereum.Event {
@@ -150,25 +154,25 @@ export class NewRentEvent__Params {
   }
 }
 
-export class OwnershipTransferred extends ethereum.Event {
-  get params(): OwnershipTransferred__Params {
-    return new OwnershipTransferred__Params(this);
+export class NewWithdrawEvent extends ethereum.Event {
+  get params(): NewWithdrawEvent__Params {
+    return new NewWithdrawEvent__Params(this);
   }
 }
 
-export class OwnershipTransferred__Params {
-  _event: OwnershipTransferred;
+export class NewWithdrawEvent__Params {
+  _event: NewWithdrawEvent;
 
-  constructor(event: OwnershipTransferred) {
+  constructor(event: NewWithdrawEvent) {
     this._event = event;
   }
 
-  get previousOwner(): Address {
+  get from(): Address {
     return this._event.parameters[0].value.toAddress();
   }
 
-  get newOwner(): Address {
-    return this._event.parameters[1].value.toAddress();
+  get balance(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
   }
 }
 
@@ -215,6 +219,10 @@ export class ReservApp__getPersonByAddressResultValue0Struct extends ethereum.Tu
 
   get email(): string {
     return this[2].toString();
+  }
+
+  get image(): string {
+    return this[3].toString();
   }
 }
 
@@ -371,7 +379,7 @@ export class ReservApp extends ethereum.SmartContract {
   getPersonByAddress(): ReservApp__getPersonByAddressResultValue0Struct {
     let result = super.call(
       "getPersonByAddress",
-      "getPersonByAddress():((string,string,string))",
+      "getPersonByAddress():((string,string,string,string))",
       []
     );
 
@@ -385,7 +393,7 @@ export class ReservApp extends ethereum.SmartContract {
   > {
     let result = super.tryCall(
       "getPersonByAddress",
-      "getPersonByAddress():((string,string,string))",
+      "getPersonByAddress():((string,string,string,string))",
       []
     );
     if (result.reverted) {
@@ -485,21 +493,6 @@ export class ReservApp extends ethereum.SmartContract {
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
-
-  owner(): Address {
-    let result = super.call("owner", "owner():(address)", []);
-
-    return result[0].toAddress();
-  }
-
-  try_owner(): ethereum.CallResult<Address> {
-    let result = super.tryCall("owner", "owner():(address)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toAddress());
-  }
 }
 
 export class ConstructorCall extends ethereum.Call {
@@ -517,10 +510,6 @@ export class ConstructorCall__Inputs {
 
   constructor(call: ConstructorCall) {
     this._call = call;
-  }
-
-  get _nft(): Address {
-    return this._call.inputValues[0].value.toAddress();
   }
 }
 
@@ -558,6 +547,32 @@ export class DefaultCall__Outputs {
   }
 }
 
+export class DestroyCall extends ethereum.Call {
+  get inputs(): DestroyCall__Inputs {
+    return new DestroyCall__Inputs(this);
+  }
+
+  get outputs(): DestroyCall__Outputs {
+    return new DestroyCall__Outputs(this);
+  }
+}
+
+export class DestroyCall__Inputs {
+  _call: DestroyCall;
+
+  constructor(call: DestroyCall) {
+    this._call = call;
+  }
+}
+
+export class DestroyCall__Outputs {
+  _call: DestroyCall;
+
+  constructor(call: DestroyCall) {
+    this._call = call;
+  }
+}
+
 export class LinkedPersonCall extends ethereum.Call {
   get inputs(): LinkedPersonCall__Inputs {
     return new LinkedPersonCall__Inputs(this);
@@ -585,6 +600,10 @@ export class LinkedPersonCall__Inputs {
 
   get email(): string {
     return this._call.inputValues[2].value.toString();
+  }
+
+  get image(): string {
+    return this._call.inputValues[3].value.toString();
   }
 }
 
@@ -684,32 +703,6 @@ export class NewPlaceCall__Outputs {
   }
 }
 
-export class RenounceOwnershipCall extends ethereum.Call {
-  get inputs(): RenounceOwnershipCall__Inputs {
-    return new RenounceOwnershipCall__Inputs(this);
-  }
-
-  get outputs(): RenounceOwnershipCall__Outputs {
-    return new RenounceOwnershipCall__Outputs(this);
-  }
-}
-
-export class RenounceOwnershipCall__Inputs {
-  _call: RenounceOwnershipCall;
-
-  constructor(call: RenounceOwnershipCall) {
-    this._call = call;
-  }
-}
-
-export class RenounceOwnershipCall__Outputs {
-  _call: RenounceOwnershipCall;
-
-  constructor(call: RenounceOwnershipCall) {
-    this._call = call;
-  }
-}
-
 export class RentPlaceCall extends ethereum.Call {
   get inputs(): RentPlaceCall__Inputs {
     return new RentPlaceCall__Inputs(this);
@@ -744,36 +737,6 @@ export class RentPlaceCall__Outputs {
   }
 }
 
-export class TransferOwnershipCall extends ethereum.Call {
-  get inputs(): TransferOwnershipCall__Inputs {
-    return new TransferOwnershipCall__Inputs(this);
-  }
-
-  get outputs(): TransferOwnershipCall__Outputs {
-    return new TransferOwnershipCall__Outputs(this);
-  }
-}
-
-export class TransferOwnershipCall__Inputs {
-  _call: TransferOwnershipCall;
-
-  constructor(call: TransferOwnershipCall) {
-    this._call = call;
-  }
-
-  get newOwner(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class TransferOwnershipCall__Outputs {
-  _call: TransferOwnershipCall;
-
-  constructor(call: TransferOwnershipCall) {
-    this._call = call;
-  }
-}
-
 export class WithdrawCall extends ethereum.Call {
   get inputs(): WithdrawCall__Inputs {
     return new WithdrawCall__Inputs(this);
@@ -797,9 +760,5 @@ export class WithdrawCall__Outputs {
 
   constructor(call: WithdrawCall) {
     this._call = call;
-  }
-
-  get value0(): boolean {
-    return this._call.outputValues[0].value.toBoolean();
   }
 }

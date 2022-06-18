@@ -1,11 +1,5 @@
 [
-  {
-    "inputs": [
-      { "internalType": "address", "name": "_nft", "type": "address" }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
+  { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
   {
     "anonymous": false,
     "inputs": [
@@ -62,6 +56,12 @@
         "indexed": false,
         "internalType": "string",
         "name": "email",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "image",
         "type": "string"
       }
     ],
@@ -166,20 +166,27 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "previousOwner",
+        "name": "from",
         "type": "address"
       },
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "balance",
+        "type": "uint256"
       }
     ],
-    "name": "OwnershipTransferred",
+    "name": "NewWithdrawEvent",
     "type": "event"
   },
   { "stateMutability": "payable", "type": "fallback" },
+  {
+    "inputs": [],
+    "name": "destroy",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
   {
     "inputs": [],
     "name": "getBalance",
@@ -232,7 +239,8 @@
         "components": [
           { "internalType": "string", "name": "first_name", "type": "string" },
           { "internalType": "string", "name": "last_name", "type": "string" },
-          { "internalType": "string", "name": "email", "type": "string" }
+          { "internalType": "string", "name": "email", "type": "string" },
+          { "internalType": "string", "name": "image", "type": "string" }
         ],
         "internalType": "struct ReservApp.Person",
         "name": "",
@@ -306,7 +314,8 @@
     "inputs": [
       { "internalType": "string", "name": "first_name", "type": "string" },
       { "internalType": "string", "name": "last_name", "type": "string" },
-      { "internalType": "string", "name": "email", "type": "string" }
+      { "internalType": "string", "name": "email", "type": "string" },
+      { "internalType": "string", "name": "image", "type": "string" }
     ],
     "name": "linkedPerson",
     "outputs": [],
@@ -339,20 +348,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "owner",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "renounceOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [
       { "internalType": "uint8", "name": "category", "type": "uint8" },
       { "internalType": "uint256", "name": "index", "type": "uint256" }
@@ -363,18 +358,9 @@
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "address", "name": "newOwner", "type": "address" }
-    ],
-    "name": "transferOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "withdraw",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "outputs": [],
     "stateMutability": "payable",
     "type": "function"
   },

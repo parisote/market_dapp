@@ -1,12 +1,6 @@
 [
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_nft",
-        "type": "address"
-      }
-    ],
+    "inputs": [],
     "stateMutability": "nonpayable",
     "type": "constructor"
   },
@@ -66,6 +60,12 @@
         "indexed": false,
         "internalType": "string",
         "name": "email",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "image",
         "type": "string"
       }
     ],
@@ -170,22 +170,29 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "previousOwner",
+        "name": "from",
         "type": "address"
       },
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "balance",
+        "type": "uint256"
       }
     ],
-    "name": "OwnershipTransferred",
+    "name": "NewWithdrawEvent",
     "type": "event"
   },
   {
     "stateMutability": "payable",
     "type": "fallback"
+  },
+  {
+    "inputs": [],
+    "name": "destroy",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
     "inputs": [],
@@ -284,6 +291,11 @@
           {
             "internalType": "string",
             "name": "email",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "image",
             "type": "string"
           }
         ],
@@ -461,6 +473,11 @@
         "internalType": "string",
         "name": "email",
         "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "image",
+        "type": "string"
       }
     ],
     "name": "linkedPerson",
@@ -530,26 +547,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "owner",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "renounceOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "uint8",
@@ -568,28 +565,9 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
-      }
-    ],
-    "name": "transferOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "withdraw",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
+    "outputs": [],
     "stateMutability": "payable",
     "type": "function"
   },

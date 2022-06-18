@@ -14,10 +14,10 @@ async function main() {
   //console.log("NFT deployed to:", nft.address);
 
   const nft = "0xff7998D7a9aa733819601920f6cf603dB11D667B";
-  //const dappa = "0x43484005E6a39C941e2e8aEC2EDCDe6aE89d3306";
+  //const dappa = "0x4db8663cF7527d6F2b4a996871DCfEaB47Af15f1";
 
   const ReservApp = await hre.ethers.getContractFactory("ReservApp");
-  const dapp = await ReservApp.deploy(nft);
+  const dapp = await ReservApp.deploy();
   await dapp.deployed();  
   console.log("dapp deployed to:", dapp.address);
 }
