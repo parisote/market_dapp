@@ -97,10 +97,11 @@ export const useStore = defineStore('main', {
             for(const item of l.data.newCategoryEvents){
                 this.categories.push({
                     index: item.index,
-                    name: item.category,
-                    description: item.title,
+                    name: item.name,
+                    description: item.description,
                     image: 'https://upcdn.io/' + item.image
                   });
+                console.log('https://upcdn.io/' + item.image)
              }
 
             } catch (error){
