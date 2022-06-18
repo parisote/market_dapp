@@ -25,7 +25,7 @@
     <section>
         <h1 class="aboutH1">Red ETHERIUM</h1>
         <div class="aboutContent">
-            <p>El proyecto corre sobre la RED ETHEREUM permitiendo a los usuarios utilizar billeteras virtuales</p><a href="">Learn more</a>
+            <p>El proyecto corre sobre la RED ETHEREUM permitiendo a los usuarios utilizar billeteras virtuales</p><a href="https://ethereum.org/en/">Learn more</a>
         </div>
         <div class="aboutImg">
             <img src="https://previews.123rf.com/images/rastudio/rastudio1712/rastudio171200888/92046169-s%C3%ADmbolo-de-ethereum-en-fondo-futurista-del-pol%C3%ADgono-del-hud-con-el-mapa-del-mundo-y-la-red-par-a-cua.jpg"/></div>    
@@ -33,7 +33,7 @@
     <section>
         <h1 class="aboutH1">VUE JS</h1>
         <div class="aboutContent">
-            <p>Utilizamos toda la programcion con VUE JS, junto con codigo javascript y las rutas correspondientes</p><a href="">Learn more</a>
+            <p>Utilizamos toda la programcion con VUE JS, junto con codigo javascript y las rutas correspondientes</p><a href="https://vuejs.org/">Learn more</a>
         </div>
         <div class="aboutImg">
             <img src="https://lenguajejs.com/vuejs/introduccion/primeros-pasos/vue-main.js-app.vue.png"/></div>    

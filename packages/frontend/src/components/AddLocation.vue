@@ -92,7 +92,7 @@ export default {
     } catch(error){
         let msg = error.code;
         toast({
-          message: msg,
+          message: "Error al intentar cargar el lugar",
           type: "is-danger",
           dismissible: true,
           pauseOnHover: true,

@@ -77,7 +77,7 @@ export default {
       } catch(error){
         let msg = error.code;
         toast({
-          message: msg,
+          message: "Error al intentar vincular una persona",
           type: "is-danger",
           dismissible: true,
           pauseOnHover: true,

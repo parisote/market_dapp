@@ -3,6 +3,7 @@ import { isProxy, toRaw } from 'vue';
 import { toast } from "bulma-toast"
 import ApolloClient from 'apollo-boost'
 import gql from 'graphql-tag'
+import { ethers } from "ethers";
 
 export const useStore = defineStore('main', {
     state: () => {
@@ -15,7 +16,9 @@ export const useStore = defineStore('main', {
             sizeRent: 0,
             person: {},
             provider: "",
-            preImage: ""
+            preImage: "",
+            places: [],
+            balance: 0
         }
     },
     actions: {
@@ -26,14 +29,37 @@ export const useStore = defineStore('main', {
             this.address = newAddress; 
         },
         setContract(contract) {
-            contract.on("NewPlaceEvent", (_id, index, size, price, category, title, description, image)=>{ this.messageSuccess("Se creo correctamente " + title) });
+            contract.on("NewPlaceEvent", (_id, index, size, price, category, title, description, image)=>{ 
+                this.messageSuccess("Se creo correctamente " + title);
+                this.initializePlaces(category,index);
+                this.setPreImage('');
+            });
             contract.on("NewCategoryEvent", (index, name, description, image)=>{ 
                 this.messageSuccess("Se creo correctamente " + name);
-                this.intializeCategories(); 
+                this.intializeCategories();
+                this.setPreImage('');
             });
-            contract.on("NewRentEvent", (user, category, index, name, description)=>{this.messageSuccess("Se rento correctamente " + name)});
-            contract.on("NewPersonEvent", (direction,last_name,first_name,email,image)=>{this.messageSuccess("Se rento correctamente " + last_name)});
+            contract.on("NewRentEvent", (user, category, index, name, description)=>{
+                this.messageSuccess("Se rento correctamente " + name)}
+                );
+            contract.on("NewPersonEvent", (direction,last_name,first_name,email,image)=>{
+                this.messageSuccess("Se rento correctamente " + last_name);
+                this.initializePerson();
+                this.setPreImage('');
+            });
+            contract.on("NewWithdrawEvent", (from) => {
+                this.messageSuccess("Se retiro correctamente el dinero");
+                this.initializeBalance();
+            });
             this.contract = contract;
+        },
+        async initializePerson(){
+          try{
+            let Person = await this.contract.getPersonByAddress();
+            this.setPerson(Person);            
+         } catch (error){
+             console.log(error)
+         } 
         },
         async initializeOwner(){
             try{
@@ -51,7 +77,6 @@ export const useStore = defineStore('main', {
                //this.categories = result;
 
             const apolloClient = new ApolloClient({
-                // You should use an absolute URL here
                 uri: import.meta.env.VITE_API_SUBGRAPH
             })
 
@@ -72,6 +97,46 @@ export const useStore = defineStore('main', {
             } catch (error){
                 console.log(error)
             }            
+        },
+        async initializePlaces(categoryId){
+            try{
+             const apolloClient = new ApolloClient({
+                 uri: import.meta.env.VITE_API_SUBGRAPH
+             })
+ 
+             const q = gql`
+                 query {
+                    newPlaceEvents(category: categoryId) {
+                     id
+                     index
+                     size
+                     price
+                     category
+                     title
+                     description
+                     image
+                 }
+                 }`;
+ 
+             const l = await apolloClient.query({ query: q })
+             this.places = []
+
+             for(const item of l.data.newPlaceEvents){
+                this.places.push({
+                    id: item.id,
+                    index: item.index,
+                    category: item.category,
+                    title: item.title,
+                    price: ethers.utils.formatEther(item.price, "ethers"),
+                    image: 'https://upcdn.io/' + item.image,
+                    descripcion: item.description,
+                    cantDisponible: item.size
+                  });
+             }
+ 
+             } catch (error){
+                 console.log(error)
+             }  
         },
         setMeta(value){
             this.hasMeta = value;
@@ -96,9 +161,6 @@ export const useStore = defineStore('main', {
             this.person.image = 'https://upcdn.io/' + value.image
         },
         setProvider(provider){
-            console.log(provider.on('accountsChanged', () => {this.connectWallet()}))
-            //console.log(provider.on('disconnect', () => {console.log("ASD")}))
-            //console.log(provider.on('accountsChanged', () => {console.log("CAMBIO BRO")}))
             this.provider = provider
         },
         async connectWallet() {
@@ -109,10 +171,20 @@ export const useStore = defineStore('main', {
                  account = accounts[0];
               this.addAddress(account);
               this.initializeOwner();
-            }
+            
+            window.ethereum.on('accountsChanged', (accounts) => {
+                this.addAddress(accounts[0])
+                this.initializePerson()
+                this.initializeOwner()
+            })
+        }
         },
         setPreImage(image){
             this.preImage = image
+        },
+        async initializeBalance(){
+            const amount = await this.contract.getBalance();
+            this.balance = ethers.utils.formatEther(amount);
         }
     },
 });

@@ -1,21 +1,4 @@
 <template>
-<!--<div style="display: flex; justify-content: center; margin-top:16px">
-    <div class="card text-center">
-    <div class="card-header">
-      {{ this.item.price }}
-    </div>
-    <div class="card-body">
-      <h5 class="card-title subtitle">{{ this.item.title }}</h5>
-      <p class="card-text">{{ this.item.description }}</p>
-        <img src="https://cloudfront-us-east-1.images.arcpublishing.com/infobae/JFLB5IDXNFFF5AYDTZGDWMJHLA.jpg" width="600" height="500"/>
-      <p/>
-      <a @click="rentPlace" class="btn btn-primary">Reservar</a>
-    </div>
-    <div class="card-footer text-muted">
-      {{ this.sizeRent }} disponibles
-    </div>
-  </div>
-</div>-->
 <div style="display: flex; justify-content: center; margin-top:16px">
   <div class="card card-shadow sizeCard">
 
@@ -74,18 +57,15 @@ export default {
       setSizeRent
     };
   },
-  data() {
-    return { place: {} };
-  },
   methods:{
     async rentPlace(){
       try{
-        await this.contract.rentPlace(this.item.category,this.item.index, { gasLimit: 3000000, value: ethers.utils.parseEther(this.item.price) })
+        await this.contract.rentPlace(this.place.category,this.place.index, { gasLimit: 3000000, value: ethers.utils.parseEther(this.place.price) })
         this.setSizeRent(this.sizeRent-1)
       } catch(error){
-        let msg = error;
+        let msg = error.code;
         toast({
-          message: msg,
+          message: "Error al rentar lugar",
           type: "is-danger",
           dismissible: true,
           pauseOnHover: true,
@@ -93,16 +73,12 @@ export default {
           position: "bottom-right"
         })
       }
-
-      /*if (window.confirm("Reserva hecha correctamente")) {
-        this.$router.push({ path: '/MyRents' })
-      }*/
     }  
   },
   data(){
     return {item:{}}
   },
-  async mounted(){
+  async created(){
     try{
       const result = await this.contract.getPlaceById(this.$route.params.category,this.$route.params.index)
       this.item.index = result.index

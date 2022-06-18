@@ -76,13 +76,13 @@
               Mis lugares
             </router-link>
             <router-link
-              v-if="Object.keys(this.person).length === 0"
+              v-if="this.person.first_name === ''"
               class="navbar-item"
               to="/Login">
               Vincular usuario              
             </router-link>
             <router-link
-              v-if="Object.keys(this.person).length !== 0"
+              v-if="this.person.first_name !== ''"
               class="navbar-item"
               to="/MyProfile">
               Mi perfil              
@@ -98,9 +98,8 @@
   <footer class="footer">
     <div class="content has-text-centered">
       <p>
-        <strong>Bulma</strong> by <a href="https://jgthms.com">Jeremy Thomas</a>. The source code is licensed
-        <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
-        is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+        The source code is licensed
+        <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
       </p>
     </div>
   </footer>
@@ -127,6 +126,8 @@ export default {
       setMeta,
       setPerson,
       setProvider,
+      initializePerson,
+      connectWallet
     } = store;
     return {
       store,
@@ -141,6 +142,8 @@ export default {
       initializeOwner,
       setPerson,
       setProvider,
+      initializePerson,
+      connectWallet
     };
   },
   data() {
@@ -175,12 +178,7 @@ export default {
   async mounted() {
     if (localStorage.getItem("address")) {
       await this.connectWallet();
-      const Person = await this.contract.getPersonByAddress();
-
-      if (Person.last_name !== '' && Person.first_name !== '' && Person.email !== '')
-        this.setPerson(Person);
-      
-      
+      this.initializePerson();
       this.initializeOwner();
     }
   },
@@ -214,13 +212,5 @@ export default {
 </script>
 
 <style>
-#footer {
-            position: fixed;
-            padding: 10px 10px 0px 10px;
-            bottom: 0;
-            width: 100%;
-            /* Height of the footer*/ 
-            height: 40px;
-            background: grey;
-        }
+
 </style>

@@ -1,10 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-interface IReservaNFT {
-    function mintNFT(address owner) external returns(uint256);
-}
-
 error NewPlaceError();
 error RentError();
 
@@ -18,8 +14,6 @@ contract ReservApp{
     mapping(address => PlaceRent[]) private _rent;
     mapping(address => uint256) private _bank;
     mapping(address => Person) private _persons;
-
-    IReservaNFT private nft_address;
 
     struct Category{
         uint8 index;
@@ -85,7 +79,12 @@ contract ReservApp{
         string name,
         string description, 
         string image
-    );    
+    );
+
+    event NewWithdrawEvent(
+        address indexed from,
+        uint256 balance
+    );
 
     modifier checkValue(){
         require(msg.value == 0.0001 ether, "Value is not 0.0001 ether");
@@ -104,9 +103,8 @@ contract ReservApp{
         _lock = false;
     }
 
-    constructor(address _nft){
-        _owner = msg.sender;
-        nft_address = IReservaNFT(address(_nft));        
+    constructor(){
+        _owner = msg.sender;       
     }
 
     function isOwner() public view returns(bool){
@@ -151,7 +149,6 @@ contract ReservApp{
 
         address payable to = payable(p.owner);
         _rent[msg.sender].push(PlaceRent(category,p.title,p.description));
-        //nft_address.mintNFT(msg.sender);
 
         _bank[to] += msg.value;
         
@@ -168,13 +165,13 @@ contract ReservApp{
         emit NewCategoryEvent(_id_category, category, description, image);
     }
 
-    function withdraw() external payable checkLock returns(bool){
+    function withdraw() external payable checkLock{
         require(_bank[msg.sender] > 0, "Balance is 0");
         uint256 balance = _bank[msg.sender];
         _bank[msg.sender] = 0;
         (bool result,) = payable(msg.sender).call{value:balance}("");
         require(result, "Transfer is not completed");
-        return result;
+        emit NewWithdrawEvent(msg.sender, balance);
     }
 
     function getBalance() public view returns(uint256){

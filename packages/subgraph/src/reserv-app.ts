@@ -4,7 +4,7 @@ import {
   NewPersonEvent as NewPerson,
   NewPlaceEvent as NewPlace,
   NewRentEvent as NewRent,
-  OwnershipTransferred
+  NewWithdrawEvent as NewWithdraw
 } from "../generated/ReservApp/ReservApp"
 import { NewPlaceEvent, NewRentEvent, NewPersonEvent, NewCategoryEvent } from '../generated/schema'
  
@@ -68,7 +68,17 @@ export function handleNewRentEvent(event: NewRent): void {
   newRent.save();
 }
 
-export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
+export function handleNewWithdrawEvent(event: NewWithdraw): void {
+  let newWith = NewWithdrawEvent.load(event.params.from.toHexString());
+
+  if(!newWith){
+    newWith = new NewWithdrawEvent(event.params.from.toHexString());
+  }
+
+  newWith.from = event.params.from;
+  newWith.balance = event.params.balance;
+  newWith.save();
+}
 
 function getIdFromEvents(idEvent: BigInt): string {
   return idEvent.toHexString();

@@ -9,7 +9,7 @@
     </div>
     <div class="container-fluid row" style="margin-top:16px">
         <Card
-          v-for="item in items"
+          v-for="item in this.places"
           :key="item.id"
           :id="item.id"
           :index="item.index"
@@ -20,18 +20,6 @@
           :descripcion="item.descripcion"
           :image="item.image"
           :cantDisponible="item.cantDisponible"/>
-      <!--<div class="listContainer">
-        <Card
-          v-for="item in items"
-          :key="item.id"
-          :id="item.id"
-          :nombre="item.title"
-          :price="item.price"
-          :puntaje="item.puntaje"
-          :descripcion="item.descripcion"
-          :image="item.image"
-          :cantDisponible="item.cantDisponible"
-        />-->
       </div>
     </div>
 </template>
@@ -51,35 +39,19 @@ export default {
   },
   setup() {
     const store = useStore();
-    const { address, contract } = storeToRefs(store);
-    const { addAddress, setContract } = store;
+    const { places } = storeToRefs(store);
+    const { initializePlaces } = store;
     return {
       store,
-      address,
-      contract,
-      addAddress,
-      setContract,
+      places,
+      initializePlaces
     };
   },
   data() {
     return { items: [] };
   },
-  async created() {    
-    const result = await this.contract.getPlacesByCategory(this.$route.params.index);
-    for (let i = 0; i < result.length; i++) {
-      this.items.push({
-        id: result[i].id,
-        index: result[i].index,
-        category: result[i].category,
-        title: result[i].title,
-        price: ethers.utils.formatEther(result[i].price, "ethers"),
-        puntaje: 9,
-        image: path + result[i].image,
-        descripcion: result[i].description,
-        cantDisponible: result[i].size
-      });
-    }
-    return this.items;
+  async created() {
+    this.initializePlaces(this.$route.params.index)
   },
 };
 </script>

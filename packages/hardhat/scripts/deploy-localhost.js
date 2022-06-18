@@ -14,8 +14,7 @@ async function main() {
   console.log("NFT deployed to:", nft.address);
 
   const ReservApp = await hre.ethers.getContractFactory("ReservApp");
-  const dapp = await ReservApp.deploy(nft.address);
-  await dapp.deployed();  
+  const dapp = await ReservApp.deploy();
   
   console.log("dapp deployed to:", dapp.address);
 }

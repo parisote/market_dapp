@@ -11,7 +11,7 @@
             </div>
             </div>
             <!--<a :href="place" class="btn btn-primary">Reservar</a>-->
-            <button type="button" class="button is-primary" @click="toPlace">
+            <button type="button" class="button is-primary" v-if="this.address !== ''" @click="toPlace">
               Reservar {{ title }}
             </button>
         </div>
@@ -20,9 +20,19 @@
 </template>
 
 <script>
+import { useStore } from "../store/store.js";
+import { mapState, storeToRefs } from "pinia";
 export default {
     props: ['id','index','category','nombre','descripcion','image','price','puntaje','cantDisponible'],
     name: "Card",
+        setup() {
+    const store = useStore();
+    const { address } = storeToRefs(store);
+    return {
+      store,
+      address
+    };
+  },
     methods: {
       toPlace() {
         this.$router.push({ path: '/LayoutPlace/' + this.index + '/' + this.category })

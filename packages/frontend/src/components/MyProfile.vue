@@ -12,14 +12,14 @@
                     <h4 class="text-right">Profile Settings</h4>
                 </div>
                 <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" placeholder="first name" v-model="this.person.first_name"></div>
-                    <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control" placeholder="surname" v-model="this.person.last_name"></div>
+                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" placeholder="first name" v-model="this.person.first_name" readonly></div>
+                    <div class="col-md-6"><label class="labels">Surname</label><input type="text" class="form-control" placeholder="surname" v-model="this.person.last_name" readonly></div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" placeholder="" v-model="this.person.email"></div>
-                    <div class="col-md-12"><label class="labels">Account Number</label><input type="text" class="form-control" placeholder="enter address line 1" v-model="this.address"></div>
+                    <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" placeholder="" v-model="this.person.email" readonly></div>
+                    <div class="col-md-12"><label class="labels">Account Number</label><input type="text" class="form-control" placeholder="enter address line 1" v-model="this.address" readonly></div>
 
-                    <div class="col-md-12"><label class="labels">Account Number</label><input type="text" class="form-control" placeholder="enter address line 1" v-model="this.value"></div>
+                    <div class="col-md-12"><label class="labels">Account Number</label><input type="text" class="form-control" placeholder="enter address line 1" v-model="this.balance" readonly></div>
                 </div>
                 <div class="mt-5 text-center">
                     <button class="btn btn-primary profile-button" type="button" @click="withdraw">Retirar dinero</button>
@@ -40,24 +40,23 @@ import { ethers } from "ethers";
 export default {
   setup() {
     const store = useStore();
-    const { address, person, contract } = storeToRefs(store);
+    const { address, person, contract, balance } = storeToRefs(store);
+    const { initializeBalance } = store; 
     return {
       store,
       address,
       contract,
-      person
+      person,
+      balance,
+      initializeBalance
     };
   },
-  data() {
-    return {value:0};
-  },
   async created(){
-    const amount = await this.contract.getBalance();
-    this.value = ethers.utils.formatEther(amount)
+        this.initializeBalance()
   },
   methods:{
     async withdraw(){
-        const d = await this.contract.withdraw();
+        await this.contract.withdraw();
     }
   }
 }
