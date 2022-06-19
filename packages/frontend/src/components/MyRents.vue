@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="title" style="text-align: center"><b>Bienvenido a tus reservas!!</b></h1>
+    <h1 class="title" style="text-align: center">Bienvenido a tus reservas!!</h1>
   </div>
   <div class='row todoElAncho'>
     <CardMisReservas 

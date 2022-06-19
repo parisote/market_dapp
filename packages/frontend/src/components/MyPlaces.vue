@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="title" style="text-align: center"><b>Panel usuario</b></h1>
+    <h1 class="title" style="text-align: center">Panel usuario</h1>
   </div>
   <div class='row todoElAncho'>
     <CardMisReservas 
@@ -8,6 +8,8 @@
           :key="item.id"  
           :title="item.title"
           :descripcion="item.descripcion"
+          :precio="item.precio"
+          :image="item.image" 
     />
   </div>
 </template>
@@ -46,6 +48,8 @@ setup() {
       this.items.push({
         title: result[i].title,
         descripcion: result[i].description,
+        precio: result[i].precio,
+        image:result[i].image,
       });
     } 
       console.log(result[0].title)
