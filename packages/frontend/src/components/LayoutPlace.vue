@@ -59,9 +59,8 @@ export default {
   },
   methods:{
     async rentPlace(){
-      console.log(this.$route.params.category,this.$route.params.index)
       try{
-        await this.contract.rentPlace(this.$route.params.category,this.$route.params.index, { gasLimit: 3000000, value: ethers.utils.parseEther(this.place.price) })
+        await this.contract.rentPlace(this.item.category,this.item.index, { gasLimit: 3000000, value: ethers.utils.parseEther(this.item.price) })
         this.setSizeRent(this.sizeRent-1)
       } catch(error){
         let msg = error.code;
