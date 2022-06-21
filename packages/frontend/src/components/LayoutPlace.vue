@@ -15,7 +15,7 @@
 
     <div class="card-image">
       <figure class="image is-16by9">
-        <img src="https://cloudfront-us-east-1.images.arcpublishing.com/infobae/JFLB5IDXNFFF5AYDTZGDWMJHLA.jpg" width="600" height="500" alt="Image">
+        <img :src=this.item.image width="600" height="500" alt="Image">
       </figure>
     </div>
     <div class="card-content">
@@ -87,7 +87,7 @@ export default {
       this.item.description = result.description;
       this.item.price = ethers.utils.formatEther(result.price, "ethers");
       this.item.size = result.size;
-      this.item.image = result.image;
+      this.item.image = 'https://upcdn.io/'+result.image;
 
       this.setSizeRent(result.size)
     } catch(error){

@@ -15,12 +15,12 @@
     </div>
       </div>
       <div class="mb-3">
-         <label class="col-sm-2 col-form-label">Apellido</label>
-         <div class="col-sm-10">
+        <label class="col-sm-2 col-form-label">Apellido</label>
+        <div class="col-sm-10">
         <input class="form-control" v-model="user.apellido" />
-    </div>
+        </div>
       </div>
-      <div class="mb-3">
+     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Email address</label>
         <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" v-model="user.email" />
       </div>
@@ -28,7 +28,7 @@
         <label for="exampleFormControlInput1" class="form-label">Imagen</label>
         <input type="file" class="form-control" @change="uploadFile"/>
       </div>
-       <button type="submit" class="btn btn-primary" @click="linkedPerson" :disabled="this.preImage === ''">Login</button>
+       <button type="submit" class="btn btn-success" @click="linkedPerson" :disabled="this.preImage === ''">Login</button>
     </form>
   </div>
 </template>  

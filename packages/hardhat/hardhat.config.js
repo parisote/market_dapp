@@ -21,19 +21,5 @@ const GOERLI_PRIVATE_KEY = process.env.PRIVATE_KEY;
 
 module.exports = {
   solidity: "0.8.4",
-  networks: {
-    goerli: {
-      url: "https://eth-goerli.alchemyapi.io/v2/6I8_ORnqsNDUIyf0BHZKjhHsfeM4Wa5T",
-      accounts: [GOERLI_PRIVATE_KEY],
-      gasPrice: 8000000000
-    },
-    matic: {
-      url: "https://polygon-mumbai.g.alchemy.com/v2/6YR8gYUXJwyfdtNjTEzkQl8iiblI7kZA",
-      accounts: [GOERLI_PRIVATE_KEY]
-    },
-    maticDapp: {
-      url: "https://polygon-mumbai.g.alchemy.com/v2/R5RrRZmPWPH6ujD4lJFRxWvS7K1jiopY",
-      accounts: [GOERLI_PRIVATE_KEY]
-    }
-  },
+
 };
