@@ -116,33 +116,34 @@ export const useStore = defineStore('main', {
              const q = gql`
                  query {
                     newPlaceEvents(category: categoryId) {
-                     id
-                     index
-                     size
-                     price
-                     category
-                     title
-                     description
-                     image
+                    id
+                    index
+                    size
+                    price
+                    category
+                    title
+                    description
+                    image
                  }
                  }`;
  
              const l = await apolloClient.query({ query: q })
              this.places = []
 
-             for(const item of l.data.newPlaceEvents){
-                this.places.push({
-                    id: item.id,
-                    index: item.index,
-                    category: item.category,
-                    title: item.title,
-                    price: ethers.utils.formatEther(item.price, "ethers"),
-                    image: 'https://upcdn.io/' + item.image,
-                    descripcion: item.description,
-                    cantDisponible: item.size
-                  });
-             }
- 
+                for(const item of l.data.newPlaceEvents){
+                    if(item.category == categoryId){
+                        this.places.push({
+                            id: item.id,
+                            index: item.index,
+                            category: item.category,
+                            title: item.title,
+                            price: ethers.utils.formatEther(item.price, "ethers"),
+                            image: 'https://upcdn.io/' + item.image,
+                            descripcion: item.description,
+                            cantDisponible: item.size
+                        });
+                    }
+                }
              } catch (error){
                  console.log(error)
              }  
