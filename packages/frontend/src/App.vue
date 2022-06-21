@@ -215,10 +215,6 @@ export default {
 </script>
 
 <style>
-<<<<<<< HEAD
-
-</style>
-=======
 #footer {
             position: fixed;
             padding: 10px 10px 0px 10px;
@@ -229,4 +225,3 @@ export default {
             background: grey;
         }
 </style>
->>>>>>> fede
